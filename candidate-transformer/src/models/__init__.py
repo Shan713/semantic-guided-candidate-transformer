@@ -14,6 +14,7 @@ from src.models.domain_models import (
     Location,
     MergeDecision,
     OutputCandidate,
+    OverallConfidence,
     Phone,
     PipelineContext,
     PipelineStats,
@@ -24,6 +25,15 @@ from src.models.domain_models import (
     Skill,
     SourceMetadata,
     TransformationRecord,
+)
+from src.models.semantic_models import SemanticCandidateFragment
+from src.models.transformation_models import (
+    ConfidenceResult,
+    FieldConfidence,
+    FusionConfig,
+    IdentityResolutionResult,
+    MergePolicy,
+    ProvenanceBundle,
 )
 from src.models.enums import (
     ConfidenceLevel,
@@ -39,6 +49,7 @@ from src.models.enums import (
 
 __all__ = [
     "CandidateFragment",
+    "SemanticCandidateFragment",
     "CanonicalCandidate",
     "OutputCandidate",
     "Location",
@@ -49,8 +60,11 @@ __all__ = [
     "Experience",
     "Education",
     "FieldEvidence",
+    "IdentityResolutionResult",
     "ConfidenceRecord",
+    "FieldConfidence",
     "ConfidenceBreakdown",
+    "OverallConfidence",
     "ProvenanceRecord",
     "DecisionTrace",
     "TransformationRecord",
@@ -72,4 +86,8 @@ __all__ = [
     "ResolverType",
     "FieldType",
     "EntityDomain",
+    "MergePolicy",
+    "FusionConfig",
+    "ConfidenceResult",
+    "ProvenanceBundle",
 ]

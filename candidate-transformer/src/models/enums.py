@@ -5,7 +5,10 @@ class SourceType(str, Enum):
     RECRUITER_CSV = "recruiter_csv"
     ATS_JSON = "ats_json"
     RESUME_PDF = "resume_pdf"
+    RESUME_DOCX = "resume_docx"
     GITHUB = "github"
+    LINKEDIN = "linkedin"
+    RECRUITER_NOTES = "recruiter_notes"
 
 
 class ProjectionMode(str, Enum):

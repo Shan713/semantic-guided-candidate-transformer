@@ -1,3 +1,23 @@
+version: "1.0"
+policies:
+  emails:
+    strategy: union
+  phones:
+    strategy: union
+  links:
+    strategy: union
+  skills:
+    strategy: semantic_union
+  experience:
+    strategy: chronological
+  education:
+    strategy: merge
+  headline:
+    strategy: highest_confidence
+  location:
+    strategy: most_complete
+  years_experience:
+    strategy: maximum_verified
 identity_resolution:
   email_exact_match: true
   phone_normalized_match: true

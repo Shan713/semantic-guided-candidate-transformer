@@ -277,6 +277,38 @@ class CandidateFragment(BaseModel):
     validation_warnings: list[str] = Field(default_factory=list)
 
 
+class SemanticCandidateFragment(CandidateFragment):
+    """Semantic fragment contract after ontology resolution."""
+
+
+class IdentityResolutionResult(BaseModel):
+    matched_candidate_ids: list[str] = Field(default_factory=list)
+    identity_key_used: str
+    match_reason: str
+    confidence: float = Field(ge=0.0, le=1.0)
+    supporting_evidence: list[str] = Field(default_factory=list)
+    decision_trace: list[DecisionTrace] = Field(default_factory=list)
+    fragments: list[SemanticCandidateFragment] = Field(default_factory=list)
+
+
+class FieldConfidence(BaseModel):
+    field: str
+    score: float = Field(ge=0.0, le=1.0)
+    breakdown: ConfidenceBreakdown
+    computed_at_utc: datetime
+    scorer_version: str
+    reason_codes: list[str] = Field(default_factory=list)
+    source_count: int = 0
+
+
+class OverallConfidence(BaseModel):
+    score: float = Field(ge=0.0, le=1.0)
+    breakdown: ConfidenceBreakdown
+    field_confidences: list[FieldConfidence] = Field(default_factory=list)
+    computed_at_utc: datetime
+    scorer_version: str
+
+
 class CanonicalCandidate(BaseModel):
     model_config = ConfigDict(frozen=True)
 

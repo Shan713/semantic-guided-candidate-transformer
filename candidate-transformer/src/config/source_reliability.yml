@@ -1,9 +1,31 @@
 version: "1.0"
+source_reliability:
+  recruiter_csv: 0.82
+  ats_json: 0.88
+  resume_pdf: 0.92
+  resume_docx: 0.92
+  github: 0.80
+  linkedin: 0.86
+  recruiter_notes: 0.70
+field_reliability:
+  full_name: 0.95
+  emails: 0.98
+  phones: 0.96
+  links: 0.93
+  headline: 0.90
+  location: 0.85
+  skills: 0.87
+  experience: 0.86
+  education: 0.84
+  years_experience: 0.80
 reliability:
   recruiter_csv: 0.75
   ats_json: 0.90
   resume_pdf: 0.80
+  resume_docx: 0.80
   github: 0.70
+  linkedin: 0.65
+  recruiter_notes: 0.55
 field_overrides:
   recruiter_csv:
     emails: 0.80
