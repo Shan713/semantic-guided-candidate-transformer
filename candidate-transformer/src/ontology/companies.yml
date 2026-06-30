@@ -1,0 +1,136 @@
+﻿ontology_name: companies
+version: "1.0"
+updated_at_utc: "2026-06-30T00:00:00Z"
+entries:
+  - canonical_name: Google
+    aliases: [Google LLC, Google India, Alphabet Google]
+    category: Company
+    parent_category: Technology
+    related_to: [Google Cloud Platform, TensorFlow, Kubernetes]
+    metadata: {hq: Mountain View, country: United States}
+  - canonical_name: Microsoft
+    aliases: [Microsoft Corporation, MSFT, Microsoft India]
+    category: Company
+    parent_category: Technology
+    related_to: [Azure, .NET, GitHub]
+    metadata: {hq: Redmond, country: United States}
+  - canonical_name: Amazon
+    aliases: [Amazon.com, Amazon Inc, Amazon India]
+    category: Company
+    parent_category: Technology
+    related_to: [AWS]
+    metadata: {hq: Seattle, country: United States}
+  - canonical_name: Meta
+    aliases: [Meta Platforms, Facebook, Facebook Inc]
+    category: Company
+    parent_category: Technology
+    related_to: [React, PyTorch]
+    metadata: {hq: Menlo Park, country: United States}
+  - canonical_name: Apple
+    aliases: [Apple Inc, Apple Corporation]
+    category: Company
+    parent_category: Technology
+    related_to: [Swift, iOS]
+    metadata: {hq: Cupertino, country: United States}
+  - canonical_name: Netflix
+    aliases: [Netflix Inc, Netflix Corporation]
+    category: Company
+    parent_category: Technology
+    related_to: [Java, AWS]
+    metadata: {hq: Los Gatos, country: United States}
+  - canonical_name: Uber
+    aliases: [Uber Technologies, Uber Inc]
+    category: Company
+    parent_category: Technology
+    related_to: [Go, Node.js]
+    metadata: {hq: San Francisco, country: United States}
+  - canonical_name: Airbnb
+    aliases: [Airbnb Inc, Airbnb Corporation]
+    category: Company
+    parent_category: Technology
+    related_to: [React, Ruby on Rails]
+    metadata: {hq: San Francisco, country: United States}
+  - canonical_name: Salesforce
+    aliases: [Salesforce Inc, SFDC]
+    category: Company
+    parent_category: SaaS
+    related_to: [Apex, CRM]
+    metadata: {hq: San Francisco, country: United States}
+  - canonical_name: Oracle
+    aliases: [Oracle Corporation, Oracle Inc]
+    category: Company
+    parent_category: Enterprise Software
+    related_to: [Java, MySQL]
+    metadata: {hq: Austin, country: United States}
+  - canonical_name: IBM
+    aliases: [International Business Machines, IBM Corp]
+    category: Company
+    parent_category: Enterprise Technology
+    related_to: [Watson, Mainframe]
+    metadata: {hq: Armonk, country: United States}
+  - canonical_name: Intel
+    aliases: [Intel Corporation, Intel Corp]
+    category: Company
+    parent_category: Semiconductor
+    related_to: [C++, Embedded Systems]
+    metadata: {hq: Santa Clara, country: United States}
+  - canonical_name: NVIDIA
+    aliases: [NVIDIA Corporation, Nvidia Corp]
+    category: Company
+    parent_category: Semiconductor
+    related_to: [CUDA, PyTorch, TensorFlow]
+    metadata: {hq: Santa Clara, country: United States}
+  - canonical_name: Adobe
+    aliases: [Adobe Inc, Adobe Systems]
+    category: Company
+    parent_category: Software
+    related_to: [Photoshop, Experience Cloud]
+    metadata: {hq: San Jose, country: United States}
+  - canonical_name: SAP
+    aliases: [SAP SE, SAP AG]
+    category: Company
+    parent_category: Enterprise Software
+    related_to: [ERP, HANA]
+    metadata: {hq: Walldorf, country: Germany}
+  - canonical_name: ServiceNow
+    aliases: [ServiceNow Inc, Service Now]
+    category: Company
+    parent_category: SaaS
+    related_to: [ITSM, Workflow Automation]
+    metadata: {hq: Santa Clara, country: United States}
+  - canonical_name: Snowflake
+    aliases: [Snowflake Inc, Snowflake Computing]
+    category: Company
+    parent_category: Data Platform
+    related_to: [SQL, Cloud Data Warehouse]
+    metadata: {hq: Bozeman, country: United States}
+  - canonical_name: Databricks
+    aliases: [Databricks Inc, Databricks Corporation]
+    category: Company
+    parent_category: Data Platform
+    related_to: [Apache Spark, Delta Lake]
+    metadata: {hq: San Francisco, country: United States}
+  - canonical_name: Atlassian
+    aliases: [Atlassian Corporation, Atlassian Pty]
+    category: Company
+    parent_category: Software
+    related_to: [Jira, Confluence]
+    metadata: {hq: Sydney, country: Australia}
+  - canonical_name: Infosys
+    aliases: [Infosys Ltd, Infosys Limited]
+    category: Company
+    parent_category: IT Services
+    related_to: [Digital Transformation, Consulting]
+    metadata: {hq: Bengaluru, country: India}
+  - canonical_name: TCS
+    aliases: [Tata Consultancy Services, Tata Consultancy]
+    category: Company
+    parent_category: IT Services
+    related_to: [Consulting, Enterprise Delivery]
+    metadata: {hq: Mumbai, country: India}
+  - canonical_name: Wipro
+    aliases: [Wipro Limited, Wipro Ltd]
+    category: Company
+    parent_category: IT Services
+    related_to: [Consulting, Cloud Migration]
+    metadata: {hq: Bengaluru, country: India}

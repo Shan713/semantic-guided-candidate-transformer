@@ -1,0 +1,136 @@
+﻿ontology_name: degrees
+version: "1.0"
+updated_at_utc: "2026-06-30T00:00:00Z"
+entries:
+  - canonical_name: Bachelor of Technology
+    aliases: [B.Tech, BTech, Bachelor of Engineering, BE]
+    category: Undergraduate
+    parent_category: Engineering
+    related_to: [Computer Science, Information Technology]
+    metadata: {level: bachelor}
+  - canonical_name: Bachelor of Science
+    aliases: [B.Sc, BS, BSc]
+    category: Undergraduate
+    parent_category: Science
+    related_to: [Mathematics, Physics, Statistics]
+    metadata: {level: bachelor}
+  - canonical_name: Bachelor of Arts
+    aliases: [BA, B.A.]
+    category: Undergraduate
+    parent_category: Arts
+    related_to: [Economics, Psychology]
+    metadata: {level: bachelor}
+  - canonical_name: Bachelor of Commerce
+    aliases: [B.Com, BCom]
+    category: Undergraduate
+    parent_category: Commerce
+    related_to: [Accounting, Finance]
+    metadata: {level: bachelor}
+  - canonical_name: Bachelor of Business Administration
+    aliases: [BBA, B.B.A.]
+    category: Undergraduate
+    parent_category: Business
+    related_to: [Management, Marketing]
+    metadata: {level: bachelor}
+  - canonical_name: Bachelor of Computer Applications
+    aliases: [BCA, B.C.A.]
+    category: Undergraduate
+    parent_category: Computer Science
+    related_to: [Programming, Databases]
+    metadata: {level: bachelor}
+  - canonical_name: Master of Technology
+    aliases: [M.Tech, MTech, Master of Engineering, ME]
+    category: Postgraduate
+    parent_category: Engineering
+    related_to: [Computer Science, AI]
+    metadata: {level: master}
+  - canonical_name: Master of Science
+    aliases: [M.Sc, MS, MSc]
+    category: Postgraduate
+    parent_category: Science
+    related_to: [Data Science, Statistics]
+    metadata: {level: master}
+  - canonical_name: Master of Arts
+    aliases: [MA, M.A.]
+    category: Postgraduate
+    parent_category: Arts
+    related_to: [Humanities, Social Sciences]
+    metadata: {level: master}
+  - canonical_name: Master of Commerce
+    aliases: [M.Com, MCom]
+    category: Postgraduate
+    parent_category: Commerce
+    related_to: [Accounting, Taxation]
+    metadata: {level: master}
+  - canonical_name: Master of Business Administration
+    aliases: [MBA, M.B.A.]
+    category: Postgraduate
+    parent_category: Business
+    related_to: [Operations, Finance, Product Management]
+    metadata: {level: master}
+  - canonical_name: Master of Computer Applications
+    aliases: [MCA, M.C.A.]
+    category: Postgraduate
+    parent_category: Computer Science
+    related_to: [Software Engineering, Cloud Computing]
+    metadata: {level: master}
+  - canonical_name: Doctor of Philosophy
+    aliases: [PhD, DPhil, Doctorate]
+    category: Doctorate
+    parent_category: Research
+    related_to: [Research Methods, Publications]
+    metadata: {level: doctoral}
+  - canonical_name: Juris Doctor
+    aliases: [JD, J.D.]
+    category: Professional
+    parent_category: Law
+    related_to: [Legal Practice]
+    metadata: {level: professional}
+  - canonical_name: Bachelor of Laws
+    aliases: [LLB, LL.B.]
+    category: Undergraduate
+    parent_category: Law
+    related_to: [Legal Studies]
+    metadata: {level: bachelor}
+  - canonical_name: Master of Laws
+    aliases: [LLM, LL.M.]
+    category: Postgraduate
+    parent_category: Law
+    related_to: [Corporate Law, International Law]
+    metadata: {level: master}
+  - canonical_name: Bachelor of Medicine and Bachelor of Surgery
+    aliases: [MBBS, M.B.B.S.]
+    category: Professional
+    parent_category: Medicine
+    related_to: [Clinical Practice]
+    metadata: {level: professional}
+  - canonical_name: Doctor of Medicine
+    aliases: [MD, M.D.]
+    category: Postgraduate
+    parent_category: Medicine
+    related_to: [Specialization]
+    metadata: {level: doctoral}
+  - canonical_name: Chartered Accountant
+    aliases: [CA, Chartered Accountancy]
+    category: Professional
+    parent_category: Finance
+    related_to: [Auditing, Taxation]
+    metadata: {level: certification}
+  - canonical_name: Certified Public Accountant
+    aliases: [CPA, C.P.A.]
+    category: Professional
+    parent_category: Finance
+    related_to: [Auditing, Financial Reporting]
+    metadata: {level: certification}
+  - canonical_name: Post Graduate Diploma in Management
+    aliases: [PGDM, P.G.D.M.]
+    category: Postgraduate
+    parent_category: Business
+    related_to: [Management, Strategy]
+    metadata: {level: diploma}
+  - canonical_name: Diploma in Computer Engineering
+    aliases: [Polytechnic Computer Engineering, Computer Diploma]
+    category: Diploma
+    parent_category: Engineering
+    related_to: [Programming, Networking]
+    metadata: {level: diploma}

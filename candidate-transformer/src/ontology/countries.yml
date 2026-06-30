@@ -1,0 +1,136 @@
+﻿ontology_name: countries
+version: "1.0"
+updated_at_utc: "2026-06-30T00:00:00Z"
+entries:
+  - canonical_name: United States
+    aliases: [USA, US, United States of America]
+    category: Country
+    parent_category: North America
+    related_to: [Canada, Mexico]
+    metadata: {iso2: US, iso3: USA}
+  - canonical_name: Canada
+    aliases: [CA, Canada Country]
+    category: Country
+    parent_category: North America
+    related_to: [United States]
+    metadata: {iso2: CA, iso3: CAN}
+  - canonical_name: Mexico
+    aliases: [MX, Mexico Country]
+    category: Country
+    parent_category: North America
+    related_to: [United States]
+    metadata: {iso2: MX, iso3: MEX}
+  - canonical_name: India
+    aliases: [IN, Republic of India, Bharat]
+    category: Country
+    parent_category: Asia
+    related_to: [United Arab Emirates, Singapore]
+    metadata: {iso2: IN, iso3: IND}
+  - canonical_name: United Kingdom
+    aliases: [UK, Great Britain, Britain]
+    category: Country
+    parent_category: Europe
+    related_to: [Ireland, Germany]
+    metadata: {iso2: GB, iso3: GBR}
+  - canonical_name: Germany
+    aliases: [DE, Federal Republic of Germany]
+    category: Country
+    parent_category: Europe
+    related_to: [France, Netherlands]
+    metadata: {iso2: DE, iso3: DEU}
+  - canonical_name: France
+    aliases: [FR, French Republic]
+    category: Country
+    parent_category: Europe
+    related_to: [Germany, Spain]
+    metadata: {iso2: FR, iso3: FRA}
+  - canonical_name: Spain
+    aliases: [ES, Kingdom of Spain]
+    category: Country
+    parent_category: Europe
+    related_to: [France, Portugal]
+    metadata: {iso2: ES, iso3: ESP}
+  - canonical_name: Italy
+    aliases: [IT, Italian Republic]
+    category: Country
+    parent_category: Europe
+    related_to: [France, Germany]
+    metadata: {iso2: IT, iso3: ITA}
+  - canonical_name: Netherlands
+    aliases: [NL, Holland]
+    category: Country
+    parent_category: Europe
+    related_to: [Germany, Belgium]
+    metadata: {iso2: NL, iso3: NLD}
+  - canonical_name: Sweden
+    aliases: [SE, Kingdom of Sweden]
+    category: Country
+    parent_category: Europe
+    related_to: [Norway, Denmark]
+    metadata: {iso2: SE, iso3: SWE}
+  - canonical_name: Norway
+    aliases: ["NO", Kingdom of Norway]
+    category: Country
+    parent_category: Europe
+    related_to: [Sweden, Denmark]
+    metadata: {iso2: NO, iso3: NOR}
+  - canonical_name: Denmark
+    aliases: [DK, Kingdom of Denmark]
+    category: Country
+    parent_category: Europe
+    related_to: [Sweden, Norway]
+    metadata: {iso2: DK, iso3: DNK}
+  - canonical_name: Australia
+    aliases: [AU, Commonwealth of Australia]
+    category: Country
+    parent_category: Oceania
+    related_to: [New Zealand]
+    metadata: {iso2: AU, iso3: AUS}
+  - canonical_name: New Zealand
+    aliases: [NZ, Aotearoa]
+    category: Country
+    parent_category: Oceania
+    related_to: [Australia]
+    metadata: {iso2: NZ, iso3: NZL}
+  - canonical_name: Singapore
+    aliases: [SG, Republic of Singapore]
+    category: Country
+    parent_category: Asia
+    related_to: [Malaysia, India]
+    metadata: {iso2: SG, iso3: SGP}
+  - canonical_name: Japan
+    aliases: [JP, Nippon, Nihon]
+    category: Country
+    parent_category: Asia
+    related_to: [South Korea, China]
+    metadata: {iso2: JP, iso3: JPN}
+  - canonical_name: South Korea
+    aliases: [KR, Republic of Korea, Korea South]
+    category: Country
+    parent_category: Asia
+    related_to: [Japan, China]
+    metadata: {iso2: KR, iso3: KOR}
+  - canonical_name: China
+    aliases: [CN, People's Republic of China, PRC]
+    category: Country
+    parent_category: Asia
+    related_to: [Japan, Singapore]
+    metadata: {iso2: CN, iso3: CHN}
+  - canonical_name: United Arab Emirates
+    aliases: [UAE, Emirates]
+    category: Country
+    parent_category: Middle East
+    related_to: [Saudi Arabia, India]
+    metadata: {iso2: AE, iso3: ARE}
+  - canonical_name: Saudi Arabia
+    aliases: [KSA, Kingdom of Saudi Arabia]
+    category: Country
+    parent_category: Middle East
+    related_to: [United Arab Emirates]
+    metadata: {iso2: SA, iso3: SAU}
+  - canonical_name: Brazil
+    aliases: [BR, Federative Republic of Brazil]
+    category: Country
+    parent_category: South America
+    related_to: [Argentina, Chile]
+    metadata: {iso2: BR, iso3: BRA}

@@ -1,0 +1,12 @@
+{
+  "fragment_id": "<generated>",
+  "external_candidate_id": "<deterministic>",
+  "source_metadata": {
+    "source_name": "recruiter_csv"
+  },
+  "full_name": "John Doe",
+  "emails": ["john.doe@example.com"],
+  "phones": ["+14155552671"],
+  "location": {"raw": "San Francisco"},
+  "skills": ["Python", "TensorFlow", "Docker"]
+}

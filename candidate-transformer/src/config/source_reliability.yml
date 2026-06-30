@@ -1,0 +1,33 @@
+version: "1.0"
+reliability:
+  recruiter_csv: 0.75
+  ats_json: 0.90
+  resume_pdf: 0.80
+  github: 0.70
+field_overrides:
+  recruiter_csv:
+    emails: 0.80
+    phones: 0.76
+    skills: 0.74
+    experience: 0.72
+    education: 0.70
+  ats_json:
+    emails: 0.95
+    phones: 0.90
+    skills: 0.84
+    experience: 0.92
+    education: 0.89
+  resume_pdf:
+    emails: 0.82
+    phones: 0.70
+    skills: 0.95
+    experience: 0.91
+    education: 0.90
+  github:
+    emails: 0.60
+    phones: 0.20
+    skills: 0.88
+    experience: 0.55
+    education: 0.30
+recency_boost_enabled: true
+recency_boost_days: 365

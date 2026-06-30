@@ -1,0 +1,148 @@
+﻿ontology_name: skills
+version: "1.0"
+updated_at_utc: "2026-06-30T00:00:00Z"
+entries:
+  - canonical_name: Python
+    aliases: [python3, py, python programming]
+    category: Programming Language
+    parent_category: Software Development
+    related_to: [Django, Flask, FastAPI, NumPy, Pandas]
+    metadata: {vendor: Python Software Foundation, ecosystem: backend}
+  - canonical_name: Java
+    aliases: [java se, core java, j2se]
+    category: Programming Language
+    parent_category: Software Development
+    related_to: [Spring Boot, Hibernate, Maven]
+    metadata: {vendor: Oracle, ecosystem: enterprise}
+  - canonical_name: JavaScript
+    aliases: [js, javascript es6, ecmascript]
+    category: Programming Language
+    parent_category: Software Development
+    related_to: [Node.js, React, Angular, Vue.js]
+    metadata: {runtime: browser_and_server}
+  - canonical_name: TypeScript
+    aliases: [ts, typescript lang]
+    category: Programming Language
+    parent_category: Software Development
+    related_to: [Node.js, React, Angular]
+    metadata: {typed: true}
+  - canonical_name: Go
+    aliases: [golang, go lang]
+    category: Programming Language
+    parent_category: Software Development
+    related_to: [Kubernetes, Docker]
+    metadata: {vendor: Google}
+  - canonical_name: SQL
+    aliases: [structured query language, ansi sql]
+    category: Query Language
+    parent_category: Databases
+    related_to: [PostgreSQL, MySQL, SQL Server]
+    metadata: {domain: data_management}
+  - canonical_name: Django
+    aliases: [django framework, django web]
+    category: Framework
+    parent_category: Web Development
+    related_to: [Python, PostgreSQL]
+    metadata: {language: Python}
+  - canonical_name: Flask
+    aliases: [flask framework, flask web]
+    category: Framework
+    parent_category: Web Development
+    related_to: [Python]
+    metadata: {language: Python}
+  - canonical_name: FastAPI
+    aliases: [fast api, fastapi framework]
+    category: Framework
+    parent_category: Web Development
+    related_to: [Python, Pydantic]
+    metadata: {language: Python}
+  - canonical_name: Spring Boot
+    aliases: [springboot, spring-boot]
+    category: Framework
+    parent_category: Backend Development
+    related_to: [Java, Hibernate, Maven]
+    metadata: {language: Java}
+  - canonical_name: React
+    aliases: [reactjs, react.js]
+    category: Framework
+    parent_category: Frontend Development
+    related_to: [JavaScript, TypeScript, Node.js]
+    metadata: {maintainer: Meta}
+  - canonical_name: Angular
+    aliases: [angular2+, angular framework]
+    category: Framework
+    parent_category: Frontend Development
+    related_to: [TypeScript, RxJS]
+    metadata: {maintainer: Google}
+  - canonical_name: Node.js
+    aliases: [nodejs, node]
+    category: Runtime
+    parent_category: Backend Development
+    related_to: [JavaScript, TypeScript, Express.js]
+    metadata: {runtime: v8}
+  - canonical_name: TensorFlow
+    aliases: [tensorflow framework, tf]
+    category: Framework
+    parent_category: Machine Learning
+    related_to: [Python, Keras, NumPy]
+    metadata: {maintainer: Google}
+  - canonical_name: PyTorch
+    aliases: [torch, pytorch framework]
+    category: Framework
+    parent_category: Machine Learning
+    related_to: [Python, NumPy]
+    metadata: {maintainer: Linux Foundation}
+  - canonical_name: NumPy
+    aliases: [numpy library, np]
+    category: Library
+    parent_category: Data Science
+    related_to: [Python, Pandas, SciPy]
+    metadata: {domain: numerical_computing}
+  - canonical_name: Pandas
+    aliases: [pandas library, pd]
+    category: Library
+    parent_category: Data Science
+    related_to: [Python, NumPy]
+    metadata: {domain: data_analysis}
+  - canonical_name: Docker
+    aliases: [docker engine, docker containers]
+    category: DevOps Tool
+    parent_category: Infrastructure
+    related_to: [Kubernetes, Linux, CI/CD]
+    metadata: {domain: containerization}
+  - canonical_name: Kubernetes
+    aliases: [k8s, kubernetes orchestration]
+    category: DevOps Tool
+    parent_category: Infrastructure
+    related_to: [Docker, Helm]
+    metadata: {domain: orchestration}
+  - canonical_name: AWS
+    aliases: [amazon web services, aws cloud]
+    category: Cloud Platform
+    parent_category: Cloud Computing
+    related_to: [EC2, S3, Lambda]
+    metadata: {provider: Amazon}
+  - canonical_name: Azure
+    aliases: [microsoft azure, azure cloud]
+    category: Cloud Platform
+    parent_category: Cloud Computing
+    related_to: [Azure Functions, AKS]
+    metadata: {provider: Microsoft}
+  - canonical_name: Google Cloud Platform
+    aliases: [gcp, google cloud]
+    category: Cloud Platform
+    parent_category: Cloud Computing
+    related_to: [GKE, BigQuery]
+    metadata: {provider: Google}
+  - canonical_name: PostgreSQL
+    aliases: [postgres, postgres sql]
+    category: Database
+    parent_category: Relational Database
+    related_to: [SQL]
+    metadata: {type: relational}
+  - canonical_name: MySQL
+    aliases: [mysql db, mysql database]
+    category: Database
+    parent_category: Relational Database
+    related_to: [SQL]
+    metadata: {type: relational}

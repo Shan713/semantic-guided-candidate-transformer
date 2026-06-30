@@ -1,0 +1,26 @@
+version: "1.0"
+score_components:
+  source_reliability_weight: 0.30
+  cross_source_agreement_weight: 0.25
+  extraction_quality_weight: 0.20
+  semantic_certainty_weight: 0.20
+  conflict_penalty_weight: 0.05
+  llm_penalty_weight: 0.00
+caps:
+  single_source_max: 0.85
+  unresolved_conflict_max: 0.65
+thresholds:
+  high: 0.80
+  medium: 0.60
+  low: 0.40
+reason_codes:
+  - high_source_reliability
+  - field_reliability_override
+  - strong_cross_source_agreement
+  - weak_cross_source_agreement
+  - high_extraction_quality
+  - semantic_alias_match
+  - semantic_fuzzy_match
+  - unresolved_conflict
+  - missing_evidence
+  - llm_penalty_applied

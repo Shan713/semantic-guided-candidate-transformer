@@ -1,0 +1,19 @@
+identity_resolution:
+  email_exact_match: true
+  phone_normalized_match: true
+  name_location_support: true
+merge_policies:
+  emails: union
+  phones: union
+  skills: semantic_union
+  experience: chronological_merge
+  education: merge
+  current_company: highest_confidence_recent
+conflict_policy:
+  unresolved_strategy: keep_all_with_confidence
+  max_alternates_per_field: 3
+ordering:
+  experience_sort: descending_start_date
+  education_sort: descending_end_year
+stability:
+  deterministic_tie_breaker: source_priority_then_recency

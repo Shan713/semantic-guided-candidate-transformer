@@ -1,0 +1,28 @@
+version: "1.0"
+ontology_paths:
+  skills: src/ontology/skills.yml
+  companies: src/ontology/companies.yml
+  job_titles: src/ontology/job_titles.yml
+  degrees: src/ontology/degrees.yml
+  countries: src/ontology/countries.yml
+matching:
+  exact_first: true
+  deterministic_fuzzy_enabled: true
+  similarity_threshold: 90
+  case_insensitive: true
+unknown_value_policy:
+  preserve_original: true
+  confidence_penalty: 0.10
+resolvers_enabled:
+  skill: true
+  company: true
+  job_title: true
+  degree: true
+  country: true
+resolution_order:
+  - exact_alias_match
+  - canonical_match
+  - parent_category_resolution
+  - entity_linking
+  - deterministic_fuzzy_match
+  - unknown_value

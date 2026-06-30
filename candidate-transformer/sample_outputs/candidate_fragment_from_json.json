@@ -1,0 +1,10 @@
+{
+  "fragment_id": "<generated>",
+  "external_candidate_id": "ats-0001",
+  "source_metadata": {"source_name": "ats_json"},
+  "full_name": "Jane Smith",
+  "emails": ["jane.smith@example.com"],
+  "phones": ["+442079460958"],
+  "location": {"raw": "London"},
+  "skills": ["JavaScript", "React"]
+}

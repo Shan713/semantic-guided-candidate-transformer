@@ -1,0 +1,136 @@
+﻿ontology_name: job_titles
+version: "1.0"
+updated_at_utc: "2026-06-30T00:00:00Z"
+entries:
+  - canonical_name: Software Engineer
+    aliases: [Software Developer, SDE, Developer, Backend Developer]
+    category: Engineering
+    parent_category: Software
+    related_to: [Python, Java, Node.js]
+    metadata: {seniority_agnostic: true}
+  - canonical_name: Senior Software Engineer
+    aliases: [Sr Software Engineer, Senior Developer, SDE 3]
+    category: Engineering
+    parent_category: Software
+    related_to: [System Design, Mentoring]
+    metadata: {level: senior}
+  - canonical_name: Staff Software Engineer
+    aliases: [Staff Engineer, Principal Engineer I]
+    category: Engineering
+    parent_category: Software
+    related_to: [Architecture, Technical Leadership]
+    metadata: {level: staff}
+  - canonical_name: Principal Engineer
+    aliases: [Principal Software Engineer, Distinguished Engineer]
+    category: Engineering
+    parent_category: Software
+    related_to: [Architecture, Strategy]
+    metadata: {level: principal}
+  - canonical_name: Engineering Manager
+    aliases: [Software Manager, EM, Development Manager]
+    category: Management
+    parent_category: Engineering
+    related_to: [People Management, Delivery]
+    metadata: {tracks: management}
+  - canonical_name: Data Scientist
+    aliases: [ML Data Scientist, Applied Scientist]
+    category: Data
+    parent_category: Analytics
+    related_to: [Python, Pandas, TensorFlow]
+    metadata: {focus: modeling}
+  - canonical_name: Machine Learning Engineer
+    aliases: [ML Engineer, AI Engineer]
+    category: Engineering
+    parent_category: Machine Learning
+    related_to: [PyTorch, TensorFlow, MLOps]
+    metadata: {focus: production_ml}
+  - canonical_name: Data Engineer
+    aliases: [Big Data Engineer, ETL Engineer]
+    category: Engineering
+    parent_category: Data Platform
+    related_to: [SQL, Spark, Airflow]
+    metadata: {focus: pipelines}
+  - canonical_name: DevOps Engineer
+    aliases: [Site Reliability Engineer, SRE, Platform Engineer]
+    category: Engineering
+    parent_category: Infrastructure
+    related_to: [Docker, Kubernetes, CI/CD]
+    metadata: {focus: reliability}
+  - canonical_name: Cloud Engineer
+    aliases: [Cloud Developer, Cloud Platform Engineer]
+    category: Engineering
+    parent_category: Cloud
+    related_to: [AWS, Azure, GCP]
+    metadata: {focus: cloud_infra}
+  - canonical_name: Frontend Engineer
+    aliases: [UI Developer, Front End Developer, Frontend Developer]
+    category: Engineering
+    parent_category: Web Development
+    related_to: [React, Angular, TypeScript]
+    metadata: {focus: client_side}
+  - canonical_name: Backend Engineer
+    aliases: [Back End Developer, Backend Developer]
+    category: Engineering
+    parent_category: Web Development
+    related_to: [Java, Python, Node.js]
+    metadata: {focus: server_side}
+  - canonical_name: Full Stack Engineer
+    aliases: [Fullstack Developer, Full Stack Developer]
+    category: Engineering
+    parent_category: Web Development
+    related_to: [React, Node.js, SQL]
+    metadata: {focus: end_to_end}
+  - canonical_name: QA Engineer
+    aliases: [Test Engineer, Software Test Engineer]
+    category: Engineering
+    parent_category: Quality Assurance
+    related_to: [Selenium, PyTest]
+    metadata: {focus: quality}
+  - canonical_name: Product Manager
+    aliases: [PM, Technical Product Manager]
+    category: Product
+    parent_category: Product Management
+    related_to: [Roadmap, Stakeholders]
+    metadata: {track: product}
+  - canonical_name: Technical Program Manager
+    aliases: [TPM, Program Manager]
+    category: Program Management
+    parent_category: Delivery
+    related_to: [Execution, Cross Functional Leadership]
+    metadata: {track: program}
+  - canonical_name: Solutions Architect
+    aliases: [Solution Architect, Cloud Architect]
+    category: Architecture
+    parent_category: Engineering
+    related_to: [AWS, Azure, Distributed Systems]
+    metadata: {focus: architecture}
+  - canonical_name: Security Engineer
+    aliases: [Application Security Engineer, Cybersecurity Engineer]
+    category: Engineering
+    parent_category: Security
+    related_to: [OWASP, IAM, SIEM]
+    metadata: {focus: security}
+  - canonical_name: Database Administrator
+    aliases: [DBA, SQL DBA]
+    category: Engineering
+    parent_category: Databases
+    related_to: [PostgreSQL, MySQL, Oracle]
+    metadata: {focus: operations}
+  - canonical_name: Business Analyst
+    aliases: [BA, Systems Analyst]
+    category: Business
+    parent_category: Analysis
+    related_to: [Requirements, Process Mapping]
+    metadata: {track: analysis}
+  - canonical_name: Scrum Master
+    aliases: [Agile Coach, Scrum Lead]
+    category: Delivery
+    parent_category: Agile
+    related_to: [Scrum, Jira]
+    metadata: {framework: Scrum}
+  - canonical_name: UX Designer
+    aliases: [Product Designer, UI UX Designer]
+    category: Design
+    parent_category: Product Design
+    related_to: [Figma, User Research]
+    metadata: {focus: experience_design}
