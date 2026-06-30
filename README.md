@@ -57,8 +57,14 @@ python -m pytest tests/ -q
 37 tests covering adapters, fusion, semantic resolution, projection, validation, models, and the CLI.
 
 ---
+## Screenshots of UI
+![](assets/ONE.png)
+![](assets/two.png)
+---
 
 ## Architecture
+
+![](assets/architecture_sgct.jpg)
 
 ```
 Adapters → Fragments → Semantic Resolution → Identity Resolution
@@ -75,20 +81,6 @@ Adapters → Fragments → Semantic Resolution → Identity Resolution
 | **Provenance** | Record where every canonical value came from — auditable and explainable |
 | **Projection** | Convert canonical model into assignment-facing output schema (configurable) |
 | **Validation** | Check projected JSON and report issues without crashing |
-
-```mermaid
-flowchart TD
-    A[CSV / ATS JSON / Resume Inputs] --> B[Adapters]
-    B --> C[CandidateFragment]
-    C --> D[Semantic Resolution]
-    D --> E[Identity Resolution]
-    E --> F[Fusion]
-    F --> G[Confidence + Provenance]
-    G --> H[CanonicalCandidate]
-    H --> I[Projection Layer]
-    I --> J[Validation Layer]
-    J --> K[Final JSON Output]
-```
 
 ---
 
