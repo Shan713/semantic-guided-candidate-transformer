@@ -1,0 +1,273 @@
+{
+  "candidate_id": "25b48972269fe027408ec77fc9a603cc34f401b398bfa9a8b837d4d45919ffd7",
+  "full_name": "Priya Venkatesh",
+  "emails": [
+    "priya.venkatesh@email.com"
+  ],
+  "phones": [
+    "+919876543210",
+    "20152019",
+    "20132015"
+  ],
+  "location": {},
+  "links": {
+    "other": []
+  },
+  "headline": "Full-stack developer with 5+ years of experience building scalable web applications. Proficient in Python, JavaScript, React, Node.js, and cloud infrastructure on AWS. Passionate about clean architecture, testing, and mentoring junior engineers.",
+  "skills": [
+    {
+      "name": "Python",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "JavaScript",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "TypeScript",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "React",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Node.js",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Django",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "FastAPI",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "PostgreSQL",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Mongo DB",
+      "confidence": 0.8,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Redis",
+      "confidence": 0.8,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Docker",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Kubernetes",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "AWS",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Terraform",
+      "confidence": 0.8,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Git",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "C",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Graph QL",
+      "confidence": 0.8,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "REST APIs",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Microservices",
+      "confidence": 0.8,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Agile",
+      "confidence": 0.8,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "TDD",
+      "confidence": 0.8,
+      "sources": [
+        "skill_ontology"
+      ]
+    }
+  ],
+  "experience": [],
+  "education": [
+    {
+      "institution": "National Institute of Technology",
+      "degree": "Bachelor of Technology",
+      "field": "Computer Science and Engineering,",
+      "end_year": 2019
+    },
+    {
+      "institution": "DAV Senior Secondary School",
+      "degree": "Class 12",
+      "end_year": 2015
+    }
+  ],
+  "provenance": [
+    {
+      "field": "full_name",
+      "source": "resume_docx",
+      "method": "docx_text_extraction"
+    },
+    {
+      "field": "emails",
+      "source": "resume_docx",
+      "method": "docx_text_extraction"
+    },
+    {
+      "field": "phones",
+      "source": "resume_docx",
+      "method": "docx_text_extraction"
+    },
+    {
+      "field": "headline",
+      "source": "resume_docx",
+      "method": "docx_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_docx",
+      "method": "docx_text_extraction"
+    },
+    {
+      "field": "education",
+      "source": "resume_docx",
+      "method": "docx_text_extraction"
+    },
+    {
+      "field": "projects",
+      "source": "resume_docx",
+      "method": "docx_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "degree",
+      "source": "degree_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "emails",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "phones",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "links",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "skills",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "experience",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "education",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "location",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "years_experience",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "headline",
+      "source": "fusion",
+      "method": "merge"
+    }
+  ],
+  "overall_confidence": 0.5807380952380953
+}

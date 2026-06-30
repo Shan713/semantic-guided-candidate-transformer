@@ -1,194 +1,169 @@
 # Semantic Guided Candidate Transformer
 
-Semantic Guided Candidate Transformer (SGCT) is a deterministic, ontology-driven pipeline that turns heterogeneous candidate data into a canonical profile and then projects that profile into an assignment-facing JSON output.
+Deterministic, ontology-driven pipeline that turns heterogeneous candidate data (resumes, ATS exports, recruiter CSVs) into a canonical profile and projects it into assignment-facing JSON — with full confidence scoring, provenance tracking, and validation.
 
-The repository is submission-ready and includes the full pipeline, projection and validation layers, CLI entry point, sample inputs, sample outputs, and a complete test suite.
+---
 
-## Project Overview
+## Quick Start
 
-SGCT ingests candidate data from CSV and ATS JSON sources, and resumes in PDF or DOCX format. The pipeline resolves semantic meaning against ontologies, merges repeated candidate evidence deterministically, assigns confidence, records provenance, projects the canonical candidate into a configurable output schema, and validates the final JSON.
+```bash
+# 1. Create and activate a virtual environment
+python -m venv .venv
+source .venv/Scripts/activate    # Windows
+# source .venv/bin/activate      # macOS / Linux
 
-The design goal is simple: produce stable output that is explainable, reproducible, and easy to review.
+# 2. Install dependencies
+pip install -r requirements.txt
+
+# 3. Download spaCy model (required for resume parsing)
+python -m spacy download en_core_web_sm
+
+# 4. Launch the web dashboard
+python -m uvicorn ui.app:app --host 127.0.0.1 --port 8080
+```
+
+Open **http://127.0.0.1:8080** in your browser.
+
+Upload any combination of resume (PDF/DOCX), ATS JSON, or recruiter CSV, then click **Run Pipeline**. The dashboard shows summary stats, a pipeline stage visualisation, a candidate profile, and six analysis tabs (Canonical JSON, Projected Output, Confidence, Provenance, Validation, Logs).
+
+---
+
+## CLI Usage
+
+```bash
+python main.py --ats sample_inputs/candidate_ats.json \
+               --csv sample_inputs/candidate_recruiter.csv \
+               --output outputs/candidate.json
+```
+
+| Flag | Purpose |
+|------|---------|
+| `--csv` | CSV source file (repeatable) |
+| `--ats` | ATS JSON source file (repeatable) |
+| `--resume` | Resume PDF or DOCX (repeatable) |
+| `--config` / `--projection` | Optional projection config (YAML/JSON) |
+| `--output` | Destination JSON file (required) |
+
+---
+
+## Run Tests
+
+```bash
+python tests/run_all_tests.py
+# or
+python -m pytest tests/ -q
+```
+
+37 tests covering adapters, fusion, semantic resolution, projection, validation, models, and the CLI.
+
+---
 
 ## Architecture
 
-SGCT is organized as a layered pipeline:
+```
+Adapters → Fragments → Semantic Resolution → Identity Resolution
+→ Fusion → Confidence + Provenance → Projection → Validation → Output
+```
 
-1. Source adapters convert raw inputs into `CandidateFragment` objects.
-2. Semantic resolution normalizes entities using ontology-backed rules.
-3. Identity resolution clusters fragments that belong to the same person.
-4. Fusion and evidence aggregation combine all canonical evidence.
-5. Confidence scoring computes deterministic trust scores.
-6. Provenance tracking preserves where every canonical value came from.
-7. Projection converts the canonical model into the assignment output schema.
-8. Validation checks the projected JSON and reports issues without crashing.
-
-## Pipeline Diagram
+| Stage | What it does |
+|-------|--------------|
+| **Adapters** | Convert raw inputs (CSV, ATS JSON, PDF, DOCX) into `CandidateFragment` objects |
+| **Semantic Resolution** | Normalize entities against curated ontologies (skills, companies, job titles, degrees, countries) |
+| **Identity Resolution** | Cluster fragments that belong to the same person |
+| **Fusion** | Merge evidence deterministically across sources |
+| **Confidence** | Compute per-field trust scores from source reliability, cross-source agreement, extraction quality, semantic certainty, and conflict penalties |
+| **Provenance** | Record where every canonical value came from — auditable and explainable |
+| **Projection** | Convert canonical model into assignment-facing output schema (configurable) |
+| **Validation** | Check projected JSON and report issues without crashing |
 
 ```mermaid
 flowchart TD
     A[CSV / ATS JSON / Resume Inputs] --> B[Adapters]
     B --> C[CandidateFragment]
     C --> D[Semantic Resolution]
-    D --> E[SemanticCandidateFragment]
-    E --> F[Identity Resolution]
-    F --> G[Fusion]
-    G --> H[Evidence Aggregation]
-    H --> I[Confidence Scoring]
-    I --> J[Provenance]
-    J --> K[CanonicalCandidate]
-    K --> L[Projection Layer]
-    L --> M[Validation Layer]
-    M --> N[Final JSON Output]
+    D --> E[Identity Resolution]
+    E --> F[Fusion]
+    F --> G[Confidence + Provenance]
+    G --> H[CanonicalCandidate]
+    H --> I[Projection Layer]
+    I --> J[Validation Layer]
+    J --> K[Final JSON Output]
 ```
+
+---
 
 ## Folder Structure
 
-```text
+```
 .
-├── README.md
-├── Design Decisions.md
-├── EdgeCases.md
-├── Stage 1 One Page Design Document.md
-├── Demo Script.md
-├── main.py
-├── pyproject.toml
+├── main.py                    # CLI entry point
 ├── requirements.txt
-├── sample_inputs/
-├── sample_outputs/
-├── src/
-│   ├── adapters/
-│   ├── confidence/
-│   ├── config/
-│   ├── core/
-│   ├── fusion/
-│   ├── interfaces/
-│   ├── models/
-│   ├── ontology/
-│   ├── projection/
-│   ├── provenance/
-│   ├── semantic/
-│   ├── transformation/
-│   ├── utils/
-│   └── validation/
-└── tests/
+├── sample_inputs/             # Resume PDF, ATS JSON, recruiter CSV fixtures
+├── sample_outputs/            # Generated output examples
+├── src/                       # Pipeline backend
+│   ├── adapters/              # Source adapters (CSV, ATS, PDF, DOCX)
+│   ├── confidence/            # Deterministic confidence scoring
+│   ├── config/                # YAML configuration (semantic, fusion, projection, etc.)
+│   ├── core/                  # Pipeline orchestrator, settings, logging
+│   ├── fusion/                # Candidate fusion & identity resolution
+│   ├── interfaces/            # Abstract base classes
+│   ├── models/                # Pydantic domain models
+│   ├── ontology/              # Curated ontologies (+ YAML data files)
+│   ├── projection/            # Projection engine & config loader
+│   ├── provenance/            # Provenance tracking engine
+│   ├── semantic/              # Semantic resolution engine
+│   ├── transformation/        # Transformation engines
+│   ├── utils/                 # Extractors, hashing, normalizers, ID generation
+│   └── validation/            # Validation engine
+├── tests/                     # Test suite (37 tests)
+└── ui/                        # Visualization layer (presentation only)
+    ├── app.py                 # FastAPI application factory
+    ├── routes.py              # Routes: GET / (landing), POST /run (pipeline)
+    ├── templates/
+    │   ├── base.html          # Base layout (navbar, footer)
+    │   ├── index.html         # Landing page with upload form
+    │   └── results.html       # Results dashboard with 6 tabs
+    └── static/
+        ├── css/styles.css     # Corporate dashboard theme
+        └── js/app.js          # Copy, collapse, toast, tab persistence
 ```
 
-## Design Philosophy
-
-SGCT follows five rules:
-
-- Deterministic output over probabilistic guessing.
-- Canonical internal models over ad hoc transformations.
-- Explicit provenance over hidden data loss.
-- Configurable projection over hard-coded output shapes.
-- Validation as a reporting step, not a crash path.
-
-## Semantic Resolution
-
-Semantic resolution maps raw candidate text into canonical ontology values. The engine uses curated ontologies for skills, companies, job titles, degrees, and countries, with deterministic fallback behavior for unknown values.
-
-This stage is what lets `Python3`, `python`, and `Python` converge into one canonical skill, or `United States` and `US` converge into one country code.
-
-## Ontology Usage
-
-Ontologies live under `src/ontology/` and are loaded at runtime through configuration. They provide:
-
-- canonical names
-- alias mappings
-- category and parent relationships
-- deterministic fuzzy lookup support
-
-Ontology lookups are used before any merge or projection logic so the rest of the pipeline operates on normalized values.
-
-## Confidence
-
-Confidence is computed from weighted evidence, source reliability, extraction quality, semantic certainty, and conflict penalties. The confidence layer never invents trust; it combines deterministic signals from the pipeline.
-
-The projected output includes confidence when enabled by projection configuration.
-
-## Provenance
-
-Provenance records preserve the path from raw input to canonical output. Each important field can be traced back to the source record, transformation rule, and resolution method that produced it.
-
-This makes the output auditable and easy to explain during review.
+---
 
 ## Configuration
 
-Runtime behavior is controlled by YAML files in `src/config/`:
+Runtime behaviour is controlled by YAML files in `src/config/`:
 
-- `semantic.yml` for ontology and matching behavior
-- `fusion.yml` for merge and conflict policy
-- `confidence.yml` for scoring weights and thresholds
-- `projection.yml` for output schema mapping
-- `source_reliability.yml` for source trust settings
+| File | Purpose |
+|------|---------|
+| `semantic.yml` | Ontology paths and matching thresholds |
+| `fusion.yml` | Merge and conflict resolution policy |
+| `confidence.yml` | Scoring weights, category weights, caps |
+| `projection.yml` | Default output schema mapping |
+| `source_reliability.yml` | Per-source and per-field trust settings |
 
-## Projection Layer
+---
 
-Projection converts `CanonicalCandidate` into the final JSON format.
+## Design Philosophy
 
-The default projection keeps the assignment schema intact. A custom projection config can remap fields, rename paths, normalize values, and decide how missing data should be handled.
+- **Deterministic** — same inputs always produce the same output
+- **Canonical-first** — normalize internally before projecting externally
+- **Provenance everywhere** — every value is traceable to its source
+- **Configurable projection** — output schema is independent of internal model
+- **Validation as reporting** — checks inform, never crash
 
-## CLI Usage
-
-The CLI entry point is [`main.py`](main.py).
-
-Supported inputs:
-
-- `--csv` for CSV source files
-- `--ats` for ATS JSON source files
-- `--resume` for PDF or DOCX resume files
-- `--config` for a custom projection config
-- `--output` for the destination JSON file
-
-Example:
-
-```bash
-python main.py --csv sample_inputs/candidate.csv --output outputs/candidate.json
-```
-
-## Running Tests
-
-Run the full repository test suite with:
-
-```bash
-python tests/run_all_tests.py
-```
-
-## Sample Commands
-
-```bash
-python main.py --csv sample_inputs/candidate.csv --output outputs/candidate_from_csv.json
-python main.py --ats sample_inputs/candidate.json --output outputs/candidate_from_ats.json
-python main.py --csv sample_inputs/candidate.csv --ats sample_inputs/candidate.json --output outputs/merged_candidate.json
-python tests/run_all_tests.py
-```
-
-## Sample Outputs
-
-The repository includes sample fragment fixtures in `sample_outputs/`:
-
-- `sample_outputs/candidate_fragment_from_csv.json`
-- `sample_outputs/candidate_fragment_from_json.json`
-
-The repository also includes representative projected outputs generated from the shipped fixtures:
-
-- `sample_outputs/projected_candidate_from_csv.json`
-- `sample_outputs/projected_candidate_from_ats.json`
-
-The CLI writes canonical projected JSON to the output path you choose. A typical result includes fields such as `candidate_id`, `full_name`, `emails`, `phones`, `location`, `skills`, `experience`, `education`, `provenance`, and `overall_confidence` when enabled. Some optional fields may remain empty when the source fixture does not provide enough evidence.
+---
 
 ## Known Limitations
 
-- Resume ingestion supports PDF and DOCX, not plain text resume files.
-- The system is deterministic by design, so it does not use free-form LLM generation for semantic decisions.
-- Validation reports issues instead of stopping the pipeline.
-- The repository is tuned for assignment submission, not for large-scale distributed ingestion.
+- Resume ingestion supports PDF and DOCX only (no plain-text or image-based resumes)
+- Purely deterministic — no free-form LLM generation for semantic decisions
+- Tuned for single-candidate / small-batch processing, not large-scale distributed ingestion
+- Validation reports issues rather than stopping the pipeline
 
 ## Future Work
 
-- Add OCR support for scanned resumes.
-- Expand the ontology set with more domains and aliases.
-- Expose the pipeline through an API service.
-- Add richer validation diagnostics and reporting.
-- Add more end-to-end sample outputs for additional projection configurations.
+- OCR support for scanned resumes
+- Expanded ontology domains and aliases
+- Richer validation diagnostics
+- Additional projection configuration examples

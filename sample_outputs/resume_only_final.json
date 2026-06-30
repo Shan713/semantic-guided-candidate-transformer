@@ -1,0 +1,385 @@
+{
+  "candidate_id": "0e42cdf6dbd8c26d5a0ba16dbd3c01ae7b483056ad881084044e4cd0583201d8",
+  "full_name": "Shantharam P",
+  "emails": [
+    "shanthu2005@gmail.com"
+  ],
+  "phones": [
+    "+919944659335"
+  ],
+  "location": {},
+  "links": {
+    "other": []
+  },
+  "headline": "Computer Science & Engineering student with strong foundations in backend development, networking, distributed systems, and problem solving. Experienced in building scalable REST AP Is, IoT-enabled backend systems, OTA firmware frameworks, and automation-driven workflows. Skilled in Python, C/C++, Django, SQL,and TCP/I Pfundamentals, withhands-onexperienceinembeddedsystems, cloudintegrated applications, and knowledge-driven system design.",
+  "skills": [
+    {
+      "name": "Python",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "C++",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Java",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "JavaScript",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Embedded C",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Data Structures and Algorithms",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Database Management Systems",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Operating Systems",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Object-Oriented Programming",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Computer Networks",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Django",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "REST APIs",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "HTML",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "CSS",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "PostgreSQL",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "SQL",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Supabase",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Knowledge Graphs",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Semantic Data",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "TCP/IP",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "HTTP/HTTPS",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "MQTT",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Distributed Systems",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Pandas",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Sensor Integration",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Arduino IDE",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Keil μVision",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Git",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Linux",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Wireshark",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "API Integration",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Version Control",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Debugging",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    }
+  ],
+  "experience": [
+    {
+      "company": "Sony SSUP",
+      "title": "Intern",
+      "start": "2024-12-30",
+      "end": "2025-09-30",
+      "summary": "Developed backend-integrated IoT solutions for automated sensor onboarding and device management. Built a custom OTA firmware update framework for reliable microcontroller firmware delivery. Designed an Automatic Sensor Registration (ASR) system enabling plug-and-play deployment using ontology-driven discovery and LLM-assisted workflows. Worked with embedded systems, networking protocols, and automation pipelines for scalable IoT deployments."
+    },
+    {
+      "company": "Galaxy Z Space",
+      "title": "Software Engineer",
+      "start": "2025-04-30",
+      "end": "2025-11-30",
+      "summary": "Developed and deployed backend services using Django for educational workflows and platform management. Integrated Supabase/PostgreSQL for managing structured application data efficiently. Contributed to deployment, debugging, API integration, and maintenance of the organization's official website."
+    }
+  ],
+  "education": [
+    {
+      "institution": "Amrita Vishwa Vidyapeetham",
+      "degree": "Bachelor of Technology",
+      "field": "Computer Science and Engineering",
+      "end_year": 2027
+    },
+    {
+      "institution": "SRVS National Higher Secondary School",
+      "degree": "Class 12th Board",
+      "end_year": 2023
+    }
+  ],
+  "provenance": [
+    {
+      "field": "full_name",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "emails",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "phones",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "headline",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "experience",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "education",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "projects",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "company",
+      "source": "company_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "job_title",
+      "source": "job_title_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "degree",
+      "source": "degree_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "emails",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "phones",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "links",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "skills",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "experience",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "education",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "location",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "years_experience",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "headline",
+      "source": "fusion",
+      "method": "merge"
+    }
+  ],
+  "overall_confidence": 0.6382276278932627
+}

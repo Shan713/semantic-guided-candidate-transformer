@@ -1,0 +1,114 @@
+# ============================================================================
+# Sample Projection Config — "Job Board" output profile
+# Demonstrates all projection operations and missing-value strategies.
+# ============================================================================
+
+mode: custom
+output_schema_name: job_board_profile
+output_schema_version: "1.0"
+include_provenance: true
+include_confidence: true
+missing_value_strategy: null
+strict_unmapped_target_fields: true
+freeze_canonical_input: true
+emit_validation_errors: true
+
+rules:
+  # --- Identity (select / rename) ---
+  - rule_id: map_id
+    source_path: candidate_id
+    target_path: id
+    operation: select
+    required: true
+    enabled: true
+
+  - rule_id: map_name
+    source_path: full_name
+    target_path: name
+    operation: rename
+    required: false
+    enabled: true
+
+  - rule_id: map_headline
+    source_path: headline
+    target_path: headline
+    operation: select
+    required: false
+    enabled: true
+
+  - rule_id: map_years
+    source_path: years_experience
+    target_path: years_of_experience
+    operation: rename
+    required: false
+    enabled: true
+
+  # --- Contact (remap — flattens structured email/phone objects) ---
+  - rule_id: map_emails
+    source_path: emails
+    target_path: contact.emails
+    operation: remap
+    required: true
+    enabled: true
+
+  - rule_id: map_phones
+    source_path: phones
+    target_path: contact.phones
+    operation: remap
+    required: false
+    enabled: true
+
+  # --- Location (nest — groups sub-fields under a parent) ---
+  - rule_id: map_location
+    source_path: location
+    target_path: address
+    operation: nest
+    required: false
+    enabled: true
+
+  # --- Links (nest) ---
+  - rule_id: map_links
+    source_path: links
+    target_path: profiles
+    operation: nest
+    required: false
+    enabled: true
+
+  # --- Skills (remap with canonical normalization) ---
+  - rule_id: map_skills
+    source_path: skills
+    target_path: skills
+    operation: remap
+    required: true
+    enabled: true
+
+  # --- Experience & Education (remap) ---
+  - rule_id: map_experience
+    source_path: experience
+    target_path: work_history
+    operation: remap
+    required: false
+    enabled: true
+
+  - rule_id: map_education
+    source_path: education
+    target_path: education
+    operation: remap
+    required: false
+    enabled: true
+
+  # --- Internal → external rename ---
+  - rule_id: map_confidence
+    source_path: overall_confidence_internal
+    target_path: confidence_score
+    operation: rename
+    required: false
+    enabled: true
+
+  # --- Provenance always last ---
+  - rule_id: map_provenance
+    source_path: provenance
+    target_path: provenance
+    operation: remap
+    required: false
+    enabled: true

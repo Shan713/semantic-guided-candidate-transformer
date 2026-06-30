@@ -1,0 +1,526 @@
+{% extends "base.html" %}
+{% block title %}SGCT — Results{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4 py-3">
+
+<!-- ========================================================================= -->
+<!-- Summary Cards                                                              -->
+<!-- ========================================================================= -->
+<div class="summary-row">
+    <div class="summary-card s-frags fade-in">
+        <div class="s-icon"><i class="bi bi-puzzle-fill"></i></div>
+        <div class="s-val">{{ total_fragments }}</div>
+        <div class="s-label">Fragments</div>
+    </div>
+    <div class="summary-card s-groups fade-in">
+        <div class="s-icon"><i class="bi bi-people-fill"></i></div>
+        <div class="s-val">{{ identity_groups }}</div>
+        <div class="s-label">Identity Groups</div>
+    </div>
+    <div class="summary-card s-cands fade-in">
+        <div class="s-icon"><i class="bi bi-person-check-fill"></i></div>
+        <div class="s-val">{{ canonical_count }}</div>
+        <div class="s-label">Canonical</div>
+    </div>
+    <div class="summary-card s-conf fade-in">
+        <div class="s-icon"><i class="bi bi-speedometer2"></i></div>
+        <div class="s-val">{{ avg_confidence | percent }}</div>
+        <div class="s-label">Confidence</div>
+    </div>
+    <div class="summary-card s-errs fade-in">
+        <div class="s-icon"><i class="bi bi-x-circle-fill"></i></div>
+        <div class="s-val">{{ total_errors }}</div>
+        <div class="s-label">Errors</div>
+    </div>
+    <div class="summary-card s-warns fade-in">
+        <div class="s-icon"><i class="bi bi-exclamation-triangle-fill"></i></div>
+        <div class="s-val">{{ total_warnings }}</div>
+        <div class="s-label">Warnings</div>
+    </div>
+    <div class="summary-card s-time fade-in">
+        <div class="s-icon"><i class="bi bi-stopwatch-fill"></i></div>
+        <div class="s-val">{{ elapsed }}</div>
+        <div class="s-label">Runtime</div>
+    </div>
+</div>
+
+<!-- ========================================================================= -->
+<!-- Pipeline                                                                   -->
+<!-- ========================================================================= -->
+<div class="card shadow-sm mb-3 fade-in">
+    <div class="card-header bg-dark">
+        <h6 class="mb-0 text-white"><i class="bi bi-diagram-3 me-2"></i>Pipeline Execution</h6>
+    </div>
+    <div class="card-body py-3 px-2">
+        <div class="pipeline">
+            {% for stage in stages %}
+            <div class="step">
+                <div class="dot ok"><i class="bi bi-check-lg"></i></div>
+                <div class="name">{{ stage.name }}</div>
+            </div>
+            {% if not loop.last %}<div class="line ok"></div>{% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- ========================================================================= -->
+<!-- Warnings                                                                   -->
+<!-- ========================================================================= -->
+{% if errors %}
+<div class="alert alert-warning alert-flat fade show mb-3 fade-in" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+    {% for e in errors %}{{ e }}{% if not loop.last %} &middot; {% endif %}{% endfor %}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+{% endif %}
+
+<!-- ========================================================================= -->
+<!-- Main Content                                                              -->
+<!-- ========================================================================= -->
+{% if candidates %}
+{% set c = candidates[0] %}
+<div class="row g-3 fade-in">
+
+    <!-- LEFT — Candidate Profile -->
+    <div class="col-lg-4 col-xl-3">
+        <div class="card shadow-sm">
+            <!-- Profile header -->
+            <div class="profile-header">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="profile-avatar">
+                        {{ (c.full_name or '?')[0] | upper }}
+                    </div>
+                    <div class="overflow-hidden">
+                        <h6 class="mb-0 text-white fw-bold text-truncate">{{ c.full_name or 'Unnamed' }}</h6>
+                        <small style="font-size:.68rem;opacity:.55;">{{ c.candidate_id[:16] }}&hellip;</small>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <span class="badge bg-light text-dark fw-semibold">{{ avg_confidence | percent }} confidence</span>
+                    {% if c.headline %}<p class="mt-2 mb-0 small" style="opacity:.6;">{{ c.headline }}</p>{% endif %}
+                </div>
+            </div>
+
+            <!-- Identity -->
+            <div class="profile-section">
+                <div class="sec-title">Identity</div>
+                <div class="row"><span class="key">Name</span><span class="val">{{ c.full_name or '—' }}</span></div>
+                <div class="row"><span class="key">ID</span><code class="val" style="font-size:.7rem;">{{ c.candidate_id[:24] }}&hellip;</code></div>
+            </div>
+
+            <!-- Contacts -->
+            <div class="profile-section">
+                <div class="sec-title">Contact</div>
+                {% if c.emails %}
+                {% for e in c.emails %}
+                {% set ev = e.value if e is mapping else e %}
+                <div class="row"><span class="key">Email</span><span class="val" style="font-size:.76rem;">{{ ev }}</span></div>
+                {% endfor %}
+                {% else %}
+                <div class="row"><span class="val text-muted small">No email</span></div>
+                {% endif %}
+                {% if c.phones %}
+                {% for p in c.phones %}
+                {% set pv = p.raw if p is mapping else p %}
+                <div class="row"><span class="key">Phone</span><span class="val">{{ pv }}</span></div>
+                {% endfor %}
+                {% endif %}
+            </div>
+
+            <!-- Location -->
+            {% set loc = c.location %}
+            {% if loc and (loc.city or loc.country) %}
+            <div class="profile-section">
+                <div class="sec-title">Location</div>
+                {% if loc.city %}<div class="row"><span class="key">City</span><span class="val">{{ loc.city }}</span></div>{% endif %}
+                {% if loc.country %}<div class="row"><span class="key">Country</span><span class="val">{{ loc.country }}</span></div>{% endif %}
+            </div>
+            {% endif %}
+
+            <!-- Links -->
+            {% set links = c.links %}
+            {% if links and (links.linkedin or links.github or links.portfolio) %}
+            <div class="profile-section">
+                <div class="sec-title">Links</div>
+                <div class="d-flex flex-wrap gap-1">
+                    {% if links.linkedin %}<a href="{{ links.linkedin }}" target="_blank" class="btn btn-sm btn-outline-primary py-1 px-2" style="font-size:.7rem;"><i class="bi bi-linkedin"></i> LinkedIn</a>{% endif %}
+                    {% if links.github %}<a href="{{ links.github }}" target="_blank" class="btn btn-sm btn-outline-dark py-1 px-2" style="font-size:.7rem;"><i class="bi bi-github"></i> GitHub</a>{% endif %}
+                    {% if links.portfolio %}<a href="{{ links.portfolio }}" target="_blank" class="btn btn-sm btn-outline-secondary py-1 px-2" style="font-size:.7rem;"><i class="bi bi-globe2"></i> Site</a>{% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Skills -->
+            {% if c.skills %}
+            <div class="profile-section">
+                <div class="sec-title">Skills</div>
+                <div>
+                    {% for s in c.skills[:15] %}
+                    {% set sn = s.name if s is mapping else s %}
+                    <span class="skill-tag"><span class="sd"></span>{{ sn }}</span>
+                    {% endfor %}
+                    {% if c.skills|length > 15 %}
+                    <span class="skill-tag">+{{ c.skills|length - 15 }} more</span>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Experience -->
+            {% if c.experience %}
+            <div class="profile-section">
+                <div class="sec-title">Experience</div>
+                {% for exp in (c.experience[:5] if c.experience is iterable and c.experience is not string else [c.experience]) %}
+                <div class="timeline-card">
+                    <div class="ttl">
+                        {% if exp is mapping %}
+                            {{ exp.get('title_canonical') or exp.get('title','') }}
+                        {% else %}
+                            {{ exp.title_canonical if exp.title_canonical is defined else (exp.title if exp.title is defined else '') }}
+                        {% endif %}
+                    </div>
+                    <div class="sub">
+                        {% if exp is mapping %}
+                            {{ exp.get('company_canonical') or exp.get('company','') }}
+                        {% else %}
+                            {{ exp.company_canonical if exp.company_canonical is defined else (exp.company if exp.company is defined else '') }}
+                        {% endif %}
+                    </div>
+                    {% if exp is mapping and (exp.get('start') or exp.get('end')) %}
+                    <div class="date">{{ exp.get('start','') }} &rarr; {{ exp.get('end','') }}</div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+                {% if c.experience is iterable and c.experience is not string and c.experience|length > 5 %}
+                <small class="text-muted">+{{ c.experience|length - 5 }} more</small>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            <!-- Education -->
+            {% if c.education %}
+            <div class="profile-section">
+                <div class="sec-title">Education</div>
+                {% for edu in (c.education[:3] if c.education is iterable and c.education is not string else [c.education]) %}
+                <div class="timeline-card">
+                    <div class="ttl">
+                        {% if edu is mapping %}
+                            {{ edu.get('degree_canonical') or edu.get('degree','') }}
+                        {% else %}
+                            {{ edu.degree if edu.degree is defined else '' }}
+                        {% endif %}
+                    </div>
+                    <div class="sub">
+                        {% if edu is mapping %}{{ edu.get('institution','') }}{% else %}{{ edu.institution if edu.institution is defined else '' }}{% endif %}
+                    </div>
+                    {% if edu is mapping and edu.get('end_year') %}
+                    <div class="date">Class of {{ edu.get('end_year') }}</div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- RIGHT — Tabs -->
+    <div class="col-lg-8 col-xl-9">
+        <div class="card shadow-sm">
+            <div class="card-header bg-light p-0">
+                <ul class="nav nav-tabs-modern" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-canonical" type="button" role="tab" aria-selected="true">
+                            <i class="bi bi-file-earmark-code me-1"></i>Canonical
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-projected" type="button" role="tab" aria-selected="false">
+                            <i class="bi bi-box-arrow-up-right me-1"></i>Projected
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-confidence" type="button" role="tab" aria-selected="false">
+                            <i class="bi bi-speedometer2 me-1"></i>Confidence
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-provenance" type="button" role="tab" aria-selected="false">
+                            <i class="bi bi-journal-check me-1"></i>Provenance
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-validation" type="button" role="tab" aria-selected="false">
+                            <i class="bi bi-shield-check me-1"></i>Validation
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-logs" type="button" role="tab" aria-selected="false">
+                            <i class="bi bi-terminal me-1"></i>Logs
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body tab-content">
+
+                <!-- ========================================================= -->
+                <!-- TAB: Canonical JSON                                         -->
+                <!-- ========================================================= -->
+                <div class="tab-pane fade show active" id="tab-canonical" role="tabpanel">
+                    <div class="json-toolbar">
+                        <button class="btn btn-sm btn-outline-secondary" onclick="copyJson('canonical-json')"><i class="bi bi-clipboard me-1"></i>Copy</button>
+                    </div>
+                    <div class="json-box"><pre><code id="canonical-json">{{ c | pretty_json }}</code></pre></div>
+                </div>
+
+                <!-- ========================================================= -->
+                <!-- TAB: Projected Output                                      -->
+                <!-- ========================================================= -->
+                <div class="tab-pane fade" id="tab-projected" role="tabpanel">
+                    {% if projected %}
+                    <div class="alert alert-info alert-flat small mb-3">
+                        <i class="bi bi-info-circle me-1"></i>Final output after Projection Engine. Differences from canonical reflect the projection config.
+                    </div>
+                    <div class="json-toolbar">
+                        <button class="btn btn-sm btn-outline-secondary" onclick="copyJson('projected-json')"><i class="bi bi-clipboard me-1"></i>Copy</button>
+                    </div>
+                    <div class="json-box"><pre><code id="projected-json">{{ projected[0] | pretty_json }}</code></pre></div>
+                    {% else %}
+                    <div class="empty-state"><span class="es-icon">&#128195;</span><p class="text-muted small">No projected output.</p></div>
+                    {% endif %}
+                </div>
+
+                <!-- ========================================================= -->
+                <!-- TAB: Confidence                                            -->
+                <!-- ========================================================= -->
+                <div class="tab-pane fade" id="tab-confidence" role="tabpanel">
+                    <div class="row g-4 align-items-center mb-4">
+                        <div class="col-auto">
+                            <div class="donut-wrap">
+                                <svg width="105" height="105" viewBox="0 0 105 105">
+                                    <circle class="bg-ring" cx="52.5" cy="52.5" r="44"/>
+                                    <circle class="fill-ring" cx="52.5" cy="52.5" r="44"
+                                            id="donut-fill"
+                                            stroke-dasharray="{{ 44 * 2 * 3.14159 }}"
+                                            stroke-dashoffset="{{ 44 * 2 * 3.14159 * (1 - avg_confidence) }}"/>
+                                </svg>
+                                <div class="center">
+                                    <span class="pct">{{ avg_confidence | percent }}</span>
+                                    <span class="lbl">Overall</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <h6 class="fw-bold mb-3">Field Confidence</h6>
+                            {% for fc in field_confidences[:7] %}
+                            <div class="cf-row">
+                                <span class="cf-name">{{ fc.field }}</span>
+                                <span class="cf-pct text-{{ fc.score | confidence_color }}">{{ fc.score | percent }}</span>
+                                <div class="progress"><div class="progress-bar bg-{{ fc.score | confidence_color }}" style="width:{{ (fc.score*100)|round|int }}%"></div></div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <h6 class="fw-bold mb-2">All Fields</h6>
+                    <div class="table-responsive">
+                        <table class="table table-sm align-middle">
+                            <thead class="table-light">
+                                <tr><th>Field</th><th class="text-end" style="width:65px;">Score</th><th style="width:130px;">Progress</th></tr>
+                            </thead>
+                            <tbody>
+                                {% for fc in field_confidences %}
+                                <tr>
+                                    <td class="fw-semibold small">{{ fc.field }}</td>
+                                    <td class="text-end small fw-bold text-{{ fc.score | confidence_color }}">{{ fc.score | percent }}</td>
+                                    <td><div class="progress" style="height:7px;border-radius:100px;background:#f1f5f9;"><div class="progress-bar bg-{{ fc.score | confidence_color }}" style="width:{{ (fc.score*100)|round|int }}%"></div></div></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {% if confidence_breakdown %}
+                    <h6 class="fw-bold mt-4 mb-2">Confidence Breakdown</h6>
+                    <div class="row g-3">
+                        {% set items = [
+                            ("source_reliability","Source Reliability","bi-star-fill","#7c3aed"),
+                            ("cross_source_agreement","Cross-Source Agreement","bi-intersect","#2563eb"),
+                            ("extraction_quality","Extraction Quality","bi-braces","#059669"),
+                            ("semantic_certainty","Semantic Confidence","bi-lightbulb-fill","#d97706"),
+                            ("conflict_penalty","Conflict Penalty","bi-exclamation-diamond-fill","#dc2626")
+                        ] %}
+                        {% for key,label,icon,color in items %}
+                        {% set val = confidence_breakdown.get(key,0) %}
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center gap-2 mb-1">
+                                <i class="bi {{ icon }} small" style="color:{{ color }}"></i>
+                                <span class="small fw-semibold">{{ label }}</span>
+                                <span class="ms-auto small fw-bold">{{ val | percent }}</span>
+                            </div>
+                            <div class="progress" style="height:6px;border-radius:100px;background:#f1f5f9;">
+                                <div class="progress-bar" style="width:{{ (val*100)|round|int }}%;background:{{ color }}"></div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- ========================================================= -->
+                <!-- TAB: Provenance                                            -->
+                <!-- ========================================================= -->
+                <div class="tab-pane fade" id="tab-provenance" role="tabpanel">
+                    {% if provenance_data %}
+                    <div class="table-responsive">
+                        <table class="table table-sm prov-table">
+                            <thead><tr><th>Field</th><th>Original</th><th>Canonical</th><th>Source</th><th>Method</th><th class="text-end">Conf</th></tr></thead>
+                            <tbody>
+                                {% for row in provenance_data %}
+                                <tr class="prov-row" data-bs-toggle="collapse" data-bs-target="#prov-{{ loop.index }}" aria-expanded="false">
+                                    <td class="pf">{{ row.field }}</td>
+                                    <td class="small text-muted text-truncate" style="max-width:120px;">{{ row.original_value | truncate(30) }}</td>
+                                    <td class="small text-truncate" style="max-width:120px;">{{ row.canonical_value | truncate(30) }}</td>
+                                    <td><span class="prov-tag src">{{ row.source }}</span></td>
+                                    <td><span class="prov-tag method">{{ row.method }}</span></td>
+                                    <td class="text-end small fw-bold">
+                                        {% if row.confidence is not none %}{{ row.confidence | percent }}{% else %}—{% endif %}
+                                    </td>
+                                </tr>
+                                <tr class="collapse prov-detail" id="prov-{{ loop.index }}">
+                                    <td colspan="6">
+                                        <div class="chain">
+                                            <strong class="small">Original:</strong> <code class="small">{{ row.original_value }}</code>
+                                            <i class="bi bi-arrow-right"></i>
+                                            <strong class="small">Canonical:</strong> <code class="small">{{ row.canonical_value }}</code>
+                                            {% if row.transformation %}<span class="badge bg-light text-dark small">Rule: {{ row.transformation }}</span>{% endif %}
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="empty-state"><i class="bi bi-journal-x es-icon text-muted"></i><p class="text-muted small mt-2">No provenance records.</p></div>
+                    {% endif %}
+                </div>
+
+                <!-- ========================================================= -->
+                <!-- TAB: Validation                                            -->
+                <!-- ========================================================= -->
+                <div class="tab-pane fade" id="tab-validation" role="tabpanel">
+                    <!-- Passed -->
+                    {% for p in passed_checks %}
+                    <div class="v-item v-ok"><i class="bi bi-check-circle-fill vi text-success"></i><span class="fw-semibold small">{{ p.message }}</span></div>
+                    {% endfor %}
+
+                    <!-- Errors -->
+                    {% set all_e = [] %}
+                    {% for v in validation %}{% for e in v.errors %}{% set _ = all_e.append(e) %}{% endfor %}{% endfor %}
+                    {% if all_e %}
+                    <h6 class="text-danger fw-bold mt-3 mb-2 small text-uppercase"><i class="bi bi-x-circle-fill me-1"></i>Errors ({{ all_e|length }})</h6>
+                    {% for e in all_e %}
+                    <div class="v-item v-err">
+                        <i class="bi bi-x-circle-fill vi text-danger"></i>
+                        <div>
+                            <strong class="small">{{ e.path }}</strong>
+                            <p class="mb-0 small">{{ e.message }}</p>
+                            <small class="text-muted">Code: {{ e.code }}{% if e.expected %} &middot; Expected: {{ e.expected }}{% endif %}{% if e.actual %} &middot; Actual: {{ e.actual }}{% endif %}</small>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+
+                    <!-- Warnings -->
+                    {% set all_w = [] %}
+                    {% for v in validation %}{% for w in v.warnings %}{% set _ = all_w.append(w) %}{% endfor %}{% endfor %}
+                    {% if all_w %}
+                    <h6 class="text-warning fw-bold mt-3 mb-2 small text-uppercase"><i class="bi bi-exclamation-triangle-fill me-1"></i>Warnings ({{ all_w|length }})</h6>
+                    {% for w in all_w %}
+                    <div class="v-item v-warn">
+                        <i class="bi bi-exclamation-triangle-fill vi text-warning"></i>
+                        <div>
+                            <strong class="small">{{ w.path }}</strong>
+                            <p class="mb-0 small">{{ w.message }}</p>
+                            <small class="text-muted">Code: {{ w.code }}</small>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+
+                    {% if not all_e and not all_w and not passed_checks %}
+                    <div class="empty-state"><i class="bi bi-shield-check es-icon text-success"></i><p class="text-muted small mt-2">All validations passed.</p></div>
+                    {% endif %}
+                </div>
+
+                <!-- ========================================================= -->
+                <!-- TAB: Logs                                                  -->
+                <!-- ========================================================= -->
+                <div class="tab-pane fade" id="tab-logs" role="tabpanel">
+                    <div class="log-stream">
+                        {% for log in logs %}
+                        <div class="le">
+                            <span class="lt">{{ log.timestamp }}</span>
+                            <span class="ls">{{ log.stage }}</span>
+                            <span class="lm">{{ log.detail }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div><!-- /tab-content -->
+        </div><!-- /card -->
+    </div><!-- /col -->
+</div><!-- /row -->
+{% else %}
+<div class="empty-state fade-in">
+    <span class="es-icon">&#128269;</span>
+    <h5 class="text-muted">No candidates produced</h5>
+    <p class="text-muted small">The pipeline completed but generated no canonical candidates.</p>
+    <a href="/" class="btn btn-outline-sgct mt-2"><i class="bi bi-arrow-left me-1"></i>Back to Upload</a>
+</div>
+{% endif %}
+
+</div><!-- /container -->
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+(function(){
+    // --- Restore tab from URL hash ---
+    var hash = window.location.hash;
+    if (hash) {
+        var btn = document.querySelector('[data-bs-target="' + hash + '"]');
+        if (btn) { try { new bootstrap.Tab(btn).show(); } catch(e){} }
+    }
+
+    // --- Update hash on tab switch ---
+    document.querySelectorAll('.nav-tabs-modern [data-bs-toggle="tab"]').forEach(function(btn){
+        btn.addEventListener('shown.bs.tab', function(e){
+            history.replaceState(null, null, e.target.getAttribute('data-bs-target'));
+        });
+    });
+
+    // --- Animate donut on confidence tab activation ---
+    var animated = false;
+    document.getElementById('tab-confidence').addEventListener('shown.bs.tab', function(){
+        if (animated) return;
+        animated = true;
+        var circle = document.getElementById('donut-fill');
+        if (!circle) return;
+        var target = circle.getAttribute('stroke-dashoffset');
+        var full = circle.getAttribute('stroke-dasharray');
+        circle.style.transition = 'none';
+        circle.setAttribute('stroke-dashoffset', full);
+        requestAnimationFrame(function(){
+            requestAnimationFrame(function(){
+                circle.style.transition = 'stroke-dashoffset 1s ease';
+                circle.setAttribute('stroke-dashoffset', target);
+            });
+        });
+    });
+})();
+</script>
+{% endblock %}

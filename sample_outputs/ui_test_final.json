@@ -1,0 +1,245 @@
+{
+  "candidate_id": "0e42cdf6dbd8c26d5a0ba16dbd3c01ae7b483056ad881084044e4cd0583201d8",
+  "full_name": "Shantharam P",
+  "emails": [
+    "shanthu2005@gmail.com"
+  ],
+  "phones": [
+    "+919944659335"
+  ],
+  "location": {
+    "city": "Coimbatore",
+    "country": "India"
+  },
+  "links": {
+    "other": []
+  },
+  "headline": "Backend Developer",
+  "skills": [
+    {
+      "name": "Python",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Django",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "REST APIs",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "PostgreSQL",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "TCP/IP",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "MQTT",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "IoT",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    }
+  ],
+  "experience": [
+    {
+      "company": "Sony SSUP",
+      "title": "Backend Intern",
+      "start": "2024-12-01",
+      "end": "2025-09-01",
+      "summary": "Built backend-integrated IoT workflows for sensor onboarding and device management. Implemented an OTA firmware update framework for microcontroller delivery. Worked on ontology-driven discovery for automated sensor registration."
+    },
+    {
+      "company": "GalaxyZ Space",
+      "title": "Backend Engineer",
+      "start": "2025-04-30",
+      "end": "2025-11-30",
+      "summary": "Strong backend intern profile with Django, Python, REST API development, IoT backend work, and solid networking fundamentals. | Developed Django backend services for workflow management. Integrated Supabase/PostgreSQL for structured application data. Supported deployment, debugging, and API integration."
+    }
+  ],
+  "education": [
+    {
+      "institution": "Amrita Vishwa Vidyapeetham",
+      "degree": "Bachelor of Technology",
+      "end_year": 2027
+    },
+    {
+      "institution": "SRVS National Higher Secondary School",
+      "degree": "Class 12",
+      "end_year": 2023
+    }
+  ],
+  "provenance": [
+    {
+      "field": "full_name",
+      "source": "recruiter_csv",
+      "method": "csv_parsing"
+    },
+    {
+      "field": "emails",
+      "source": "recruiter_csv",
+      "method": "csv_parsing"
+    },
+    {
+      "field": "phones",
+      "source": "recruiter_csv",
+      "method": "csv_parsing"
+    },
+    {
+      "field": "location",
+      "source": "recruiter_csv",
+      "method": "csv_parsing"
+    },
+    {
+      "field": "headline",
+      "source": "recruiter_csv",
+      "method": "csv_parsing"
+    },
+    {
+      "field": "experience",
+      "source": "recruiter_csv",
+      "method": "csv_parsing"
+    },
+    {
+      "field": "recruiter_notes",
+      "source": "recruiter_csv",
+      "method": "csv_parsing"
+    },
+    {
+      "field": "company",
+      "source": "company_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "job_title",
+      "source": "job_title_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "country",
+      "source": "country_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "full_name",
+      "source": "ats_json",
+      "method": "json_parsing"
+    },
+    {
+      "field": "emails",
+      "source": "ats_json",
+      "method": "json_parsing"
+    },
+    {
+      "field": "phones",
+      "source": "ats_json",
+      "method": "json_parsing"
+    },
+    {
+      "field": "location",
+      "source": "ats_json",
+      "method": "json_parsing"
+    },
+    {
+      "field": "headline",
+      "source": "ats_json",
+      "method": "json_parsing"
+    },
+    {
+      "field": "skills",
+      "source": "ats_json",
+      "method": "json_parsing"
+    },
+    {
+      "field": "experience",
+      "source": "ats_json",
+      "method": "json_parsing"
+    },
+    {
+      "field": "education",
+      "source": "ats_json",
+      "method": "json_parsing"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "degree",
+      "source": "degree_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "emails",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "phones",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "links",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "skills",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "experience",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "education",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "location",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "years_experience",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "headline",
+      "source": "fusion",
+      "method": "merge"
+    }
+  ],
+  "overall_confidence": 0.6976307435254805
+}

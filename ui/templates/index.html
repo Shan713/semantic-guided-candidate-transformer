@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% block title %}SGCT — Upload{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+    <!-- Hero -->
+    <div class="hero fade-in">
+        <div class="badge-row">
+            <span><i class="bi bi-shield-check"></i> Deterministic Pipeline</span>
+        </div>
+        <h1>Semantic Guided Candidate Transformer</h1>
+        <p>Upload candidate sources and run the ontology-driven fusion pipeline to produce a canonical, validated candidate profile.</p>
+    </div>
+
+    <!-- Error Alerts -->
+    {% if errors %}
+    <div class="alert alert-danger alert-flat alert-dismissible fade show mb-3" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        <strong>Error</strong>
+        <ul class="mb-0 mt-1 small">
+            {% for error in errors %}<li>{{ error }}</li>{% endfor %}
+        </ul>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endif %}
+
+    <!-- Upload Form -->
+    <div class="row justify-content-center">
+        <div class="col-lg-10 col-xl-9">
+            <div class="card shadow-sm fade-in">
+                <div class="card-header bg-dark">
+                    <h5 class="mb-0 text-white"><i class="bi bi-cloud-upload me-2"></i>Upload Candidate Sources</h5>
+                </div>
+                <div class="card-body p-4">
+                    <form action="/run" method="post" enctype="multipart/form-data" id="upload-form">
+                        <div class="upload-grid">
+                            <div class="upload-zone" id="zone-resume">
+                                <i class="bi bi-file-earmark-pdf ico"></i>
+                                <div class="label">Resume</div>
+                                <div class="hint">PDF or DOCX format</div>
+                                <div class="fname" id="file-resume"></div>
+                                <input type="file" name="resume" accept=".pdf,.docx"
+                                       onchange="handleFileSelect(this,'zone-resume','file-resume')">
+                            </div>
+                            <div class="upload-zone" id="zone-ats">
+                                <i class="bi bi-filetype-json ico"></i>
+                                <div class="label">ATS JSON</div>
+                                <div class="hint">Applicant Tracking System export</div>
+                                <div class="fname" id="file-ats"></div>
+                                <input type="file" name="ats" accept=".json"
+                                       onchange="handleFileSelect(this,'zone-ats','file-ats')">
+                            </div>
+                            <div class="upload-zone" id="zone-csv">
+                                <i class="bi bi-file-spreadsheet ico"></i>
+                                <div class="label">Recruiter CSV</div>
+                                <div class="hint">Recruiter spreadsheet export</div>
+                                <div class="fname" id="file-csv"></div>
+                                <input type="file" name="csv" accept=".csv"
+                                       onchange="handleFileSelect(this,'zone-csv','file-csv')">
+                            </div>
+                            <div class="upload-zone" id="zone-config" style="border-style:dotted;">
+                                <i class="bi bi-sliders ico"></i>
+                                <div class="label">Projection Config <span class="badge bg-secondary ms-1" style="font-size:.6rem;">Optional</span></div>
+                                <div class="hint">Custom output mapping (YAML / JSON)</div>
+                                <div class="fname" id="file-config"></div>
+                                <input type="file" name="config" accept=".yml,.yaml,.json"
+                                       onchange="handleFileSelect(this,'zone-config','file-config')">
+                            </div>
+                        </div>
+                        <div class="d-flex gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary-sgct px-4" id="run-btn">
+                                <i class="bi bi-play-fill me-1"></i> Run Pipeline
+                            </button>
+                            <button type="reset" class="btn btn-outline-sgct px-4" onclick="resetForm()">
+                                <i class="bi bi-arrow-repeat me-1"></i> Clear
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pipeline Preview -->
+    <div class="row justify-content-center mt-3">
+        <div class="col-lg-10 col-xl-9">
+            <div class="card shadow-sm fade-in">
+                <div class="card-body py-3">
+                    <div class="pipeline">
+                        {% set stages = [
+                            ("bi-database","Adapters"),("bi-puzzle","Fragments"),
+                            ("bi-search","Semantic Res."),("bi-people","Identity Res."),
+                            ("bi-intersect","Fusion"),("bi-shield-check","Confidence"),
+                            ("bi-box-arrow-up-right","Projection"),("bi-check2-circle","Validation"),
+                            ("bi-file-earmark-arrow-down","Output")
+                        ] %}
+                        {% for icon,label in stages %}
+                        <div class="step">
+                            <div class="dot wait"><i class="bi {{ icon }}"></i></div>
+                            <div class="name">{{ label }}</div>
+                        </div>
+                        {% if not loop.last %}<div class="line"></div>{% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function handleFileSelect(input, zoneId, nameId) {
+    var z = document.getElementById(zoneId);
+    var n = document.getElementById(nameId);
+    if (input.files.length > 0) {
+        z.classList.add('has-file');
+        n.textContent = input.files[0].name;
+    } else {
+        z.classList.remove('has-file');
+        n.textContent = '';
+    }
+}
+function resetForm() {
+    document.querySelectorAll('.upload-zone').forEach(function(z){z.classList.remove('has-file')});
+    document.querySelectorAll('.fname').forEach(function(e){e.textContent=''});
+}
+document.getElementById('upload-form').addEventListener('submit',function(){
+    var b = document.getElementById('run-btn');
+    b.disabled = true;
+    b.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Running&hellip;';
+});
+</script>
+{% endblock %}
