@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections import OrderedDict
 from datetime import datetime, UTC
 from typing import Any
 
@@ -55,11 +56,76 @@ class ProvenanceEngine(BaseProvenanceEngine):
         return records
 
     def _dedupe_provenance(self, records: list[ProvenanceRecord]) -> list[ProvenanceRecord]:
-        ordered: dict[tuple[Any, Any, Any, Any, Any], ProvenanceRecord] = {}
+        grouped: OrderedDict[tuple[Any, Any, Any, Any], dict[str, Any]] = OrderedDict()
         for record in records:
-            key = (record.field, record.source, record.method, self._stringify(record.original_value), self._stringify(record.canonical_value))
-            ordered[key] = record
-        return list(ordered.values())
+            key = (record.field, record.source, record.method, record.transformation_rule)
+            bucket = grouped.setdefault(
+                key,
+                {
+                    "template": record,
+                    "original_values": [],
+                    "canonical_values": [],
+                    "source_record_ids": [],
+                    "timestamps": [],
+                    "confidences": [],
+                },
+            )
+            bucket["original_values"].append(record.original_value)
+            bucket["canonical_values"].append(record.canonical_value)
+            bucket["timestamps"].append(record.timestamp_utc)
+            if record.source_record_id:
+                bucket["source_record_ids"].append(record.source_record_id)
+            if record.confidence is not None:
+                bucket["confidences"].append(record.confidence)
+
+        compacted: list[ProvenanceRecord] = []
+        for bucket in grouped.values():
+            template: ProvenanceRecord = bucket["template"]
+            original_values = self._compact_values(bucket["original_values"])
+            canonical_values = self._compact_values(bucket["canonical_values"])
+            source_record_ids = self._compact_text(bucket["source_record_ids"])
+            timestamps = [stamp for stamp in bucket["timestamps"] if stamp is not None]
+            compacted.append(
+                ProvenanceRecord(
+                    field=template.field,
+                    original_value=original_values,
+                    canonical_value=canonical_values,
+                    source=template.source,
+                    method=template.method,
+                    timestamp_utc=max(timestamps) if timestamps else template.timestamp_utc,
+                    transformation_rule=template.transformation_rule,
+                    confidence=max(bucket["confidences"]) if bucket["confidences"] else template.confidence,
+                    source_record_id=source_record_ids,
+                )
+            )
+        return compacted
+
+    def _compact_values(self, values: list[Any]) -> Any:
+        deduped = []
+        seen = set()
+        for value in values:
+            key = self._stringify(value)
+            if key in seen:
+                continue
+            seen.add(key)
+            deduped.append(value)
+        if not deduped:
+            return None
+        if len(deduped) == 1:
+            return deduped[0]
+        return deduped
+
+    def _compact_text(self, values: list[str]) -> str | None:
+        deduped = []
+        seen = set()
+        for value in values:
+            if value in seen:
+                continue
+            seen.add(value)
+            deduped.append(value)
+        if not deduped:
+            return None
+        return " | ".join(deduped)
 
     def _stringify(self, value: Any) -> str | None:
         if value is None:

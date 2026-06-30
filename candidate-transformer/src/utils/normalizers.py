@@ -1,6 +1,7 @@
 """Deterministic normalization helpers."""
 from __future__ import annotations
 
+import unicodedata
 from typing import Iterable
 import re
 from urllib.parse import urlsplit, urlunsplit
@@ -9,6 +10,12 @@ from phonenumbers import parse as _parse, format_number, PhoneNumberFormat, Numb
 
 
 _WS_RE = re.compile(r"\s+")
+_LINE_BREAK_HYPHEN_RE = re.compile(r"(?<=\w)[-‐‑‒–—]\s*\n\s*(?=\w)")
+_NON_BREAKING_SPACE_REPLACEMENTS = {
+    "\u00a0": " ",
+    "\u2007": " ",
+    "\u202f": " ",
+}
 
 
 def normalize_whitespace(text: str | None) -> str | None:
@@ -16,6 +23,31 @@ def normalize_whitespace(text: str | None) -> str | None:
         return None
     t = text.strip()
     return _WS_RE.sub(" ", t)
+
+
+def normalize_extracted_text(text: str | None) -> str | None:
+    if text is None:
+        return None
+    normalized = unicodedata.normalize("NFKC", text)
+    for source, target in _NON_BREAKING_SPACE_REPLACEMENTS.items():
+        normalized = normalized.replace(source, target)
+    normalized = normalized.replace("\r\n", "\n").replace("\r", "\n")
+    normalized = _LINE_BREAK_HYPHEN_RE.sub("", normalized)
+    normalized = re.sub(r"[•·●▪◦]", "\n", normalized)
+    normalized = re.sub(r"[ \t]+\n", "\n", normalized)
+    normalized = re.sub(r"\n{3,}", "\n\n", normalized)
+    return normalized
+
+
+def normalize_merged_words(text: str | None) -> str | None:
+    if text is None:
+        return None
+    normalized = unicodedata.normalize("NFKC", text)
+    normalized = re.sub(r"(?<=[a-z])(?=[A-Z])", " ", normalized)
+    normalized = re.sub(r"(?<=[A-Z])(?=[A-Z][a-z])", " ", normalized)
+    normalized = re.sub(r"(?<=[A-Za-z])(?=\d)", " ", normalized)
+    normalized = re.sub(r"(?<=\d)(?=[A-Za-z])", " ", normalized)
+    return normalize_whitespace(normalized)
 
 
 def normalize_email(email: str | None) -> str | None:

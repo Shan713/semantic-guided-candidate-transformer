@@ -204,13 +204,17 @@ class SemanticResolutionEngine:
 
         # resolve location country if present
         if fragment.location and fragment.location.country:
-            ent = self._resolve_generic(EntityDomain.COUNTRY, fragment.location.country)
-            if ent:
-                tr, dt, pr, canonical = ent
+            resolved = self._resolve_generic(EntityDomain.COUNTRY, fragment.location.country)
+            if resolved:
+                tr, dt, pr, canonical = resolved
                 fragment.transformation_history.append(tr)
                 fragment.decision_trace.append(dt)
                 fragment.provenance.append(pr)
-                fragment.location.country_code = canonical
+                country_entry = self.registry.get_by_alias(EntityDomain.COUNTRY, fragment.location.country) or self.registry.get_by_canonical(EntityDomain.COUNTRY, fragment.location.country)
+                if country_entry:
+                    fragment.location.country = country_entry.canonical_name
+                    iso2 = country_entry.metadata.get("iso2") if isinstance(country_entry.metadata, dict) else None
+                    fragment.location.country_code = iso2 or canonical
         return fragment
 
     def _resolve_generic(self, domain: EntityDomain, value: str):

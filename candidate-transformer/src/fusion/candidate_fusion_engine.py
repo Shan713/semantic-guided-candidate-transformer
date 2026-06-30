@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections import OrderedDict
+from difflib import SequenceMatcher
 from datetime import datetime, UTC
 from typing import Any
 
@@ -255,35 +256,43 @@ class CandidateFusionEngine(BaseFusionEngine):
         )
 
     def _merge_experience(self, fragments: list[CandidateFragment]) -> tuple[list[Experience], MergeDecision]:
-        merged: OrderedDict[tuple[Any, Any, Any, Any], Experience] = OrderedDict()
+        merged: list[Experience] = []
         competing: list[str] = []
         for fragment in fragments:
             for experience in fragment.experience:
                 company_key = experience.company_canonical or experience.company
                 title_key = experience.title_canonical or experience.title
-                key = (normalize_whitespace(company_key), normalize_whitespace(title_key), experience.start, experience.end)
                 competing.append(f"{company_key}|{title_key}|{experience.start}|{experience.end}")
-                if key not in merged:
-                    merged[key] = Experience(
-                        company=company_key,
-                        company_canonical=experience.company_canonical,
-                        title=title_key,
-                        title_canonical=experience.title_canonical,
-                        start=experience.start,
-                        end=experience.end,
-                        summary=experience.summary,
-                        location=experience.location,
-                        confidence=max(experience.confidence, self._source_reliability(fragment, "experience")),
-                        evidence_ids=list(experience.evidence_ids),
+                matched = next((item for item in merged if self._experiences_match(item, experience)), None)
+                if matched is None:
+                    merged.append(
+                        Experience(
+                            company=self._preferred_experience_company(None, experience),
+                            company_canonical=experience.company_canonical,
+                            title=self._preferred_experience_title(None, experience),
+                            title_canonical=experience.title_canonical,
+                            start=experience.start,
+                            end=experience.end,
+                            summary=experience.summary,
+                            location=experience.location,
+                            confidence=max(experience.confidence, self._source_reliability(fragment, "experience")),
+                            evidence_ids=list(experience.evidence_ids),
+                        )
                     )
-                else:
-                    merged_experience = merged[key]
-                    merged_experience.evidence_ids = dedupe_keep_order(merged_experience.evidence_ids + list(experience.evidence_ids))
-                    merged_experience.summary = self._merge_text(merged_experience.summary, experience.summary)
-                    merged_experience.confidence = max(merged_experience.confidence, experience.confidence, self._source_reliability(fragment, "experience"))
+                    continue
+                matched.company = self._preferred_experience_company(matched, experience)
+                matched.company_canonical = matched.company_canonical or experience.company_canonical
+                matched.title = self._preferred_experience_title(matched, experience)
+                matched.title_canonical = matched.title_canonical or experience.title_canonical
+                matched.start = self._earliest_date(matched.start, experience.start)
+                matched.end = self._latest_date(matched.end, experience.end)
+                matched.summary = self._merge_text(matched.summary, experience.summary)
+                matched.location = self._merge_experience_location(matched.location, experience.location)
+                matched.evidence_ids = dedupe_keep_order(matched.evidence_ids + list(experience.evidence_ids))
+                matched.confidence = max(matched.confidence, experience.confidence, self._source_reliability(fragment, "experience"))
 
         sorted_experience = sorted(
-            merged.values(),
+            merged,
             key=lambda item: (item.start is None, item.start or item.end or datetime.max.date()),
         )
         return sorted_experience, self._merge_decision(
@@ -296,36 +305,43 @@ class CandidateFusionEngine(BaseFusionEngine):
         )
 
     def _merge_education(self, fragments: list[CandidateFragment]) -> tuple[list[Education], MergeDecision]:
-        merged: OrderedDict[tuple[Any, Any, Any, Any, Any], Education] = OrderedDict()
+        merged: list[Education] = []
         competing: list[str] = []
         for fragment in fragments:
             for education in fragment.education:
-                key = (
-                    normalize_whitespace(education.institution),
-                    normalize_whitespace(education.degree),
-                    normalize_whitespace(education.field),
+                competing.append("|".join(str(part) for part in (
+                    education.institution,
+                    education.degree_canonical or education.degree,
+                    education.field,
                     education.start_year,
                     education.end_year,
-                )
-                competing.append("|".join(str(part) for part in key))
-                if key not in merged:
-                    merged[key] = Education(
-                        institution=education.institution,
-                        degree=education.degree,
-                        degree_canonical=education.degree_canonical,
-                        field=education.field,
-                        start_year=education.start_year,
-                        end_year=education.end_year,
-                        confidence=max(education.confidence, self._source_reliability(fragment, "education")),
-                        evidence_ids=list(education.evidence_ids),
+                )))
+                matched = next((item for item in merged if self._educations_match(item, education)), None)
+                if matched is None:
+                    merged.append(
+                        Education(
+                            institution=education.institution,
+                            degree=education.degree,
+                            degree_canonical=education.degree_canonical,
+                            field=education.field,
+                            start_year=education.start_year,
+                            end_year=education.end_year,
+                            confidence=max(education.confidence, self._source_reliability(fragment, "education")),
+                            evidence_ids=list(education.evidence_ids),
+                        )
                     )
-                else:
-                    merged_education = merged[key]
-                    merged_education.evidence_ids = dedupe_keep_order(merged_education.evidence_ids + list(education.evidence_ids))
-                    merged_education.confidence = max(merged_education.confidence, education.confidence, self._source_reliability(fragment, "education"))
+                    continue
+                matched.institution = self._preferred_education_institution(matched, education)
+                matched.degree = self._preferred_education_degree(matched, education)
+                matched.degree_canonical = matched.degree_canonical or education.degree_canonical
+                matched.field = matched.field or education.field
+                matched.start_year = self._earliest_year(matched.start_year, education.start_year)
+                matched.end_year = self._latest_year(matched.end_year, education.end_year)
+                matched.evidence_ids = dedupe_keep_order(matched.evidence_ids + list(education.evidence_ids))
+                matched.confidence = max(matched.confidence, education.confidence, self._source_reliability(fragment, "education"))
 
         sorted_education = sorted(
-            merged.values(),
+            merged,
             key=lambda item: (
                 item.end_year is None,
                 -(item.end_year or item.start_year or 0),
@@ -362,7 +378,7 @@ class CandidateFusionEngine(BaseFusionEngine):
                     city=location.city,
                     region=location.region,
                     country=location.country,
-                    country_code=location.country_code,
+                    country_code=self._normalize_country_code(location.country_code),
                     confidence=max(location.confidence, source_score),
                     evidence_ids=list(location.evidence_ids),
                 )
@@ -480,10 +496,179 @@ class CandidateFusionEngine(BaseFusionEngine):
 
     def _merge_text(self, left: str | None, right: str | None) -> str | None:
         if left and right:
-            if left == right:
-                return left
-            return f"{left} | {right}"
+            left_parts = [part for part in (normalize_whitespace(piece) for piece in left.split(" | ")) if part]
+            right_parts = [part for part in (normalize_whitespace(piece) for piece in right.split(" | ")) if part]
+            merged = dedupe_keep_order([*left_parts, *right_parts])
+            if not merged:
+                return None
+            if len(merged) == 1:
+                return merged[0]
+            return " | ".join(merged)
         return left or right
+
+    def _preferred_experience_company(self, current: Experience | None, incoming: Experience) -> str:
+        incoming_value = incoming.company_canonical or incoming.company
+        if incoming.company_canonical:
+            return normalize_whitespace(incoming_value) or ""
+        current_value = current.company if current else None
+        if current and current.company_canonical:
+            return normalize_whitespace(current.company_canonical) or current_value or ""
+        return self._prefer_text_value(current_value, incoming_value)
+
+    def _preferred_experience_title(self, current: Experience | None, incoming: Experience) -> str:
+        incoming_value = incoming.title_canonical or incoming.title
+        if incoming.title_canonical:
+            return normalize_whitespace(incoming_value) or ""
+        current_value = current.title if current else None
+        if current and current.title_canonical:
+            return normalize_whitespace(current.title_canonical) or current_value or ""
+        return self._prefer_text_value(current_value, incoming_value)
+
+    def _preferred_education_institution(self, current: Education | None, incoming: Education) -> str:
+        current_value = current.institution if current else None
+        return self._prefer_text_value(current_value, incoming.institution)
+
+    def _preferred_education_degree(self, current: Education | None, incoming: Education) -> str:
+        incoming_value = incoming.degree_canonical or incoming.degree
+        if incoming.degree_canonical:
+            return normalize_whitespace(incoming.degree_canonical) or ""
+        current_value = current.degree if current else None
+        if current and current.degree_canonical:
+            return normalize_whitespace(current.degree_canonical) or current_value or ""
+        return self._prefer_text_value(current_value, incoming_value)
+
+    def _prefer_text_value(self, current: str | None, incoming: str | None) -> str:
+        current_text = normalize_whitespace(current) if current else None
+        incoming_text = normalize_whitespace(incoming) if incoming else None
+        if not current_text:
+            return incoming_text or ""
+        if not incoming_text:
+            return current_text
+        if len(incoming_text) > len(current_text):
+            return incoming_text
+        return current_text
+
+    def _merge_experience_location(self, current: Location | None, incoming: Location | None) -> Location | None:
+        if current is None:
+            return incoming
+        if incoming is None:
+            return current
+        return Location(
+            raw=current.raw or incoming.raw,
+            city=current.city or incoming.city,
+            region=current.region or incoming.region,
+            country=current.country or incoming.country,
+            country_code=current.country_code or incoming.country_code,
+            confidence=max(current.confidence, incoming.confidence),
+            evidence_ids=dedupe_keep_order([*current.evidence_ids, *incoming.evidence_ids]),
+        )
+
+    def _experiences_match(self, left: Experience, right: Experience) -> bool:
+        left_company = self._experience_key_value(left.company_canonical or left.company)
+        right_company = self._experience_key_value(right.company_canonical or right.company)
+        left_title = self._experience_key_value(left.title_canonical or left.title)
+        right_title = self._experience_key_value(right.title_canonical or right.title)
+        company_match = bool(left_company and right_company and left_company == right_company)
+        title_match = bool(left_title and right_title and left_title == right_title)
+        date_overlap = self._date_ranges_overlap(left.start, left.end, right.start, right.end)
+        summary_similarity = self._text_similarity(left.summary, right.summary)
+        location_match = self._locations_match(left.location, right.location)
+        return (
+            company_match and (title_match or date_overlap or summary_similarity >= 0.82)
+        ) or (
+            title_match and date_overlap and (summary_similarity >= 0.70 or location_match)
+        )
+
+    def _educations_match(self, left: Education, right: Education) -> bool:
+        left_institution = self._experience_key_value(left.institution)
+        right_institution = self._experience_key_value(right.institution)
+        institution_match = bool(left_institution and right_institution and left_institution == right_institution)
+        left_degree = self._experience_key_value(left.degree_canonical or left.degree)
+        right_degree = self._experience_key_value(right.degree_canonical or right.degree)
+        degree_match = bool(left_degree and right_degree and left_degree == right_degree)
+        field_match = bool(
+            left.field
+            and right.field
+            and self._experience_key_value(left.field) == self._experience_key_value(right.field)
+        )
+        period_match = self._education_period_match(left.start_year, left.end_year, right.start_year, right.end_year)
+        return institution_match and (degree_match or field_match or period_match)
+
+    def _experience_key_value(self, value: str | None) -> str | None:
+        normalized = normalize_whitespace(value)
+        return normalized.lower() if normalized else None
+
+    def _date_ranges_overlap(self, left_start, left_end, right_start, right_end) -> bool:
+        left_begin = left_start or left_end
+        left_finish = left_end
+        right_begin = right_start or right_end
+        right_finish = right_end
+        if left_begin and right_finish and left_begin > right_finish:
+            return False
+        if right_begin and left_finish and right_begin > left_finish:
+            return False
+        return True
+
+    def _education_period_match(self, left_start: int | None, left_end: int | None, right_start: int | None, right_end: int | None) -> bool:
+        if left_start is None and left_end is None:
+            return True
+        if right_start is None and right_end is None:
+            return True
+        start_match = left_start is None or right_start is None or left_start == right_start
+        end_match = left_end is None or right_end is None or left_end == right_end
+        return start_match and end_match
+
+    def _text_similarity(self, left: str | None, right: str | None) -> float:
+        left_text = normalize_whitespace(left) if left else None
+        right_text = normalize_whitespace(right) if right else None
+        if not left_text or not right_text:
+            return 0.0
+        return SequenceMatcher(None, left_text.lower(), right_text.lower()).ratio()
+
+    def _locations_match(self, left: Location | None, right: Location | None) -> bool:
+        if not left or not right:
+            return False
+        left_key = self._location_string(left).lower()
+        right_key = self._location_string(right).lower()
+        return bool(left_key and right_key and left_key == right_key)
+
+    def _earliest_date(self, left, right):
+        if left is None:
+            return right
+        if right is None:
+            return left
+        return min(left, right)
+
+    def _latest_date(self, left, right):
+        if left is None:
+            return right
+        if right is None:
+            return left
+        return max(left, right)
+
+    def _earliest_year(self, left: int | None, right: int | None) -> int | None:
+        if left is None:
+            return right
+        if right is None:
+            return left
+        return min(left, right)
+
+    def _latest_year(self, left: int | None, right: int | None) -> int | None:
+        if left is None:
+            return right
+        if right is None:
+            return left
+        return max(left, right)
+
+    def _normalize_country_code(self, value: str | None) -> str | None:
+        if not value:
+            return None
+        text = normalize_whitespace(value)
+        if not text:
+            return None
+        if len(text) in {2, 3} and text.isalpha():
+            return text.upper()
+        return None
 
     def _location_completeness(self, location: Location) -> int:
         return sum(

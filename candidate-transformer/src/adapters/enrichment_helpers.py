@@ -24,7 +24,7 @@ from src.models.domain_models import (
 )
 from src.models.enums import EntityDomain, ResolverType, SemanticResolutionStage, SourceType
 from src.utils.ids import deterministic_candidate_id, new_uuid_hex
-from src.utils.normalizers import dedupe_keep_order, normalize_email, normalize_phone, normalize_whitespace
+from src.utils.normalizers import dedupe_keep_order, normalize_email, normalize_extracted_text, normalize_merged_words, normalize_phone, normalize_whitespace
 
 
 SECTION_ALIASES = {
@@ -70,6 +70,11 @@ def split_multivalue(text: str | None) -> list[str]:
         return []
     parts = [normalize_whitespace(piece) for piece in re.split(r"[;,|\n]", text) if normalize_whitespace(piece)]
     return dedupe_keep_order([part for part in parts if part])
+
+
+def _normalize_skill_token(text: str) -> str:
+    expanded = normalize_merged_words(text)
+    return expanded or text
 
 
 def parse_date_value(value: str | None) -> date | None:
@@ -176,8 +181,8 @@ def make_records(
 
 
 def build_text_fragment(text: str, source: SourceMetadata, source_label: str) -> CandidateFragment:
-    normalized_text = text.replace("\\n", "\n")
-    lines = [normalize_whitespace(line) for line in normalized_text.splitlines()]
+    normalized_text = normalize_extracted_text(text.replace("\\n", "\n")) or ""
+    lines = [normalize_merged_words(normalize_whitespace(line)) for line in normalized_text.splitlines()]
     lines = [line for line in lines if line]
     sections = _split_sections(lines)
 
@@ -408,7 +413,7 @@ def _split_sections(lines: list[str]) -> dict[str, list[str]]:
 
 
 def _match_header(line: str) -> str | None:
-    normalized = line.strip().lower().rstrip(":")
+    normalized = line.strip().lstrip("-•·●▪◦").strip().lower().rstrip(":")
     for canonical, aliases in SECTION_ALIASES.items():
         if normalized in aliases:
             return canonical
@@ -457,18 +462,22 @@ def _extract_location_candidates(lines: list[str]) -> list[str]:
 def _parse_skills(lines: list[str]) -> list[str]:
     if not lines:
         return []
-    joined = normalize_whitespace(" ".join(lines)) or ""
-    for prefix in SKILL_SECTION_PREFIXES:
-        joined = re.sub(rf"(?i)\b{re.escape(prefix)}\b", " | ", joined)
-    tokens = re.split(r"[|,;\n]", joined)
     cleaned = []
-    for token in tokens:
-        text = normalize_whitespace(token)
-        if not text:
+    for line in lines:
+        normalized_line = normalize_whitespace(line) or ""
+        if not normalized_line:
             continue
-        text = text.strip("-•")
-        if text and text not in SKILL_SECTION_PREFIXES:
-            cleaned.append(text)
+        for prefix in SKILL_SECTION_PREFIXES:
+            normalized_line = re.sub(rf"(?i)\b{re.escape(prefix)}\b", "|", normalized_line)
+        tokens = re.split(r"[|,;\n]", normalized_line)
+        for token in tokens:
+            text = normalize_whitespace(token)
+            if not text:
+                continue
+            text = text.strip("-•")
+            text = _normalize_skill_token(text)
+            if text and text not in SKILL_SECTION_PREFIXES:
+                cleaned.append(text)
     return dedupe_keep_order(cleaned)
 
 

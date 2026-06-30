@@ -144,6 +144,72 @@ def test_candidate_fusion_merge_policies():
     assert candidate.merge_decisions
 
 
+def test_candidate_fusion_consolidates_duplicate_experience_and_education():
+    source = _source(SourceType.RECRUITER_CSV, "candidate-3", 0.9)
+    fragment = SemanticCandidateFragment(
+        fragment_id=new_uuid_hex(),
+        external_candidate_id="external-3",
+        source_metadata=source,
+        full_name="Alex Rivera",
+        experience=[
+            Experience(
+                company="Acme Corporation",
+                company_canonical="Acme",
+                title="Backend Developer",
+                title_canonical="Software Engineer",
+                start=date(2022, 1, 1),
+                end=None,
+                summary="Built backend APIs",
+                confidence=0.9,
+                evidence_ids=["exp-a"],
+            ),
+            Experience(
+                company="Acme Corp",
+                company_canonical="Acme",
+                title="Software Engineer",
+                title_canonical="Software Engineer",
+                start=date(2022, 2, 1),
+                end=None,
+                summary="Built backend APIs and services",
+                confidence=0.85,
+                evidence_ids=["exp-b"],
+            ),
+        ],
+        education=[
+            Education(
+                institution="State University",
+                degree="B.Tech",
+                degree_canonical="Bachelor of Technology",
+                field="Computer Science",
+                start_year=2018,
+                end_year=2022,
+                confidence=0.9,
+                evidence_ids=["edu-a"],
+            ),
+            Education(
+                institution="State University",
+                degree="Bachelor of Technology",
+                degree_canonical="Bachelor of Technology",
+                field="Computer Science",
+                start_year=2018,
+                end_year=2022,
+                confidence=0.88,
+                evidence_ids=["edu-b"],
+            ),
+        ],
+    )
+
+    candidate = CandidateFusionEngine().fuse([fragment], None)
+
+    assert len(candidate.experience) == 1
+    assert candidate.experience[0].title == "Software Engineer"
+    assert candidate.experience[0].start == date(2022, 1, 1)
+    assert candidate.experience[0].evidence_ids == ["exp-a", "exp-b"]
+    assert len(candidate.education) == 1
+    assert candidate.education[0].degree == "Bachelor of Technology"
+    assert candidate.education[0].evidence_ids == ["edu-a", "edu-b"]
+
+
 def test_evidence_aggregation_confidence_provenance_and_builder():
     fusion = CandidateFusionEngine()
     aggregation = EvidenceAggregationEngine()
@@ -163,6 +229,21 @@ def test_evidence_aggregation_confidence_provenance_and_builder():
     assert canonical.confidence_records
     assert canonical.overall_confidence_internal > 0.0
     assert canonical.finalized_at_utc is not None
+
+
+def test_provenance_engine_compacts_repeated_field_traces():
+    fusion = CandidateFusionEngine()
+    aggregation = EvidenceAggregationEngine()
+    provenance = ProvenanceEngine()
+
+    fused = fusion.fuse([_fragment_one(), _fragment_two()], None)
+    aggregated = aggregation.aggregate(fused, [_fragment_one(), _fragment_two()], None)
+    provenanced = provenance.enrich(aggregated, None)
+    raw_provenance_count = len(aggregated.provenance) + len(aggregated.field_evidence) + len(aggregated.merge_decisions)
+
+    assert provenanced.provenance
+    assert len(provenanced.provenance) < raw_provenance_count
+    assert any(isinstance(record.original_value, list) for record in provenanced.provenance)
 
 
 def test_pipeline_orchestrator_transformation_flow():

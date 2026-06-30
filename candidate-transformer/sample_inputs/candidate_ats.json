@@ -54,8 +54,8 @@
     {
       "company": "GalaxyZ Space",
       "title": "Technical Intern and Web Developer",
-      "startDate": "2025-04-01",
-      "endDate": "2025-11-01",
+      "startDate": "2025-04-30",
+      "endDate": "2025-11-30",
       "highlights": [
         "Developed Django backend services for workflow management.",
         "Integrated Supabase/PostgreSQL for structured application data.",
