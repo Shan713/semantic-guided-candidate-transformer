@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from typing import Any
 
 from src.models.domain_models import CanonicalCandidate, CandidateFragment, FieldEvidence, ProvenanceRecord, TransformationRecord, DecisionTrace, SourceMetadata
@@ -83,9 +84,18 @@ class EvidenceAggregationEngine:
     def _unique_provenance(self, records: list[ProvenanceRecord]) -> list[ProvenanceRecord]:
         ordered: dict[tuple[Any, Any, Any, Any], ProvenanceRecord] = {}
         for record in records:
-            key = (record.field, record.source, record.method, record.original_value)
+            key = (record.field, record.source, record.method, self._hashable_value(record.original_value))
             ordered[key] = record
         return list(ordered.values())
+
+    def _hashable_value(self, value: Any) -> Any:
+        if isinstance(value, (str, int, float, bool, type(None))):
+            return value
+        if isinstance(value, dict):
+            return json.dumps(value, sort_keys=True, default=str)
+        if isinstance(value, list):
+            return json.dumps(value, sort_keys=True, default=str)
+        return str(value)
 
     def _unique_source_summaries(self, records: list[SourceMetadata]) -> list[SourceMetadata]:
         ordered: dict[str, SourceMetadata] = {}

@@ -1,0 +1,76 @@
+{
+  "candidateName": "Shantharam P",
+  "primaryEmail": "shanthu2005@gmail.com",
+  "mail": ["shanthu2005@gmail.com"],
+  "mobile": "+91 9944659335",
+  "phone": "+91 9944659335",
+  "designation": "Backend Developer",
+  "currentEmployer": "GalaxyZ Space",
+  "technicalSkills": [
+    "Python",
+    "Django",
+    "REST API Development",
+    "Postgres",
+    "TCP/IP",
+    "MQTT",
+    "IoT"
+  ],
+  "skills": [
+    {"name": "Python", "category": "programming"},
+    {"name": "Django", "category": "backend"},
+    {"name": "REST API Development", "category": "backend"},
+    {"name": "Postgres", "category": "database"},
+    {"name": "TCP/IP", "category": "networking"},
+    {"name": "MQTT", "category": "iot"},
+    {"name": "IoT", "category": "systems"}
+  ],
+  "educationHistory": [
+    {
+      "institution": "Amrita Vishwa Vidyapeetham",
+      "degree": "B.Tech, Computer Science and Engineering",
+      "startYear": 2023,
+      "endYear": 2027,
+      "cgpa": 9.04
+    },
+    {
+      "institution": "SRVS National Higher Secondary School",
+      "degree": "Class 12",
+      "endYear": 2023,
+      "percentage": 95
+    }
+  ],
+  "employmentHistory": [
+    {
+      "company": "Sony SSUP",
+      "title": "Backend Intern",
+      "startDate": "2024-12-01",
+      "endDate": "2025-09-01",
+      "highlights": [
+        "Built backend-integrated IoT workflows for sensor onboarding and device management.",
+        "Implemented an OTA firmware update framework for microcontroller delivery.",
+        "Worked on ontology-driven discovery for automated sensor registration."
+      ]
+    },
+    {
+      "company": "GalaxyZ Space",
+      "title": "Technical Intern and Web Developer",
+      "startDate": "2025-04-01",
+      "endDate": "2025-11-01",
+      "highlights": [
+        "Developed Django backend services for workflow management.",
+        "Integrated Supabase/PostgreSQL for structured application data.",
+        "Supported deployment, debugging, and API integration."
+      ]
+    }
+  ],
+  "links": {
+    "linkedin": "",
+    "github": "",
+    "portfolio": ""
+  },
+  "location": "Coimbatore, India",
+  "locationDetails": {
+    "city": "Coimbatore",
+    "country": "India"
+  }
+}

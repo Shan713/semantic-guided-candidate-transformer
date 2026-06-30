@@ -1,0 +1,85 @@
+{
+  "candidate_id": "4135f19020564bc45a482cdab774938b89f2d310da8db64581b13577da4c7c2e",
+  "full_name": "Jane Smith",
+  "emails": [
+    "jane.smith@example.com"
+  ],
+  "phones": [
+    "+442079460958"
+  ],
+  "location": {},
+  "links": {
+    "other": []
+  },
+  "skills": [],
+  "experience": [],
+  "education": [],
+  "provenance": [
+    {
+      "field": "full_name",
+      "source": "ats_json",
+      "method": "json_parsing"
+    },
+    {
+      "field": "emails",
+      "source": "ats_json",
+      "method": "json_parsing"
+    },
+    {
+      "field": "phones",
+      "source": "ats_json",
+      "method": "json_parsing"
+    },
+    {
+      "field": "location",
+      "source": "ats_json",
+      "method": "json_parsing"
+    },
+    {
+      "field": "emails",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "phones",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "links",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "skills",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "experience",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "education",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "location",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "years_experience",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "headline",
+      "source": "fusion",
+      "method": "merge"
+    }
+  ],
+  "overall_confidence": 0.5322039473684211
+}

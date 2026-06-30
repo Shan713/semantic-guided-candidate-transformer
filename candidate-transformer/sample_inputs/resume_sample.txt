@@ -1,1 +1,0 @@
-John Doe\nSenior Software Engineer\nEmail: john.doe@example.com\nPhone: +1 415 555 2671\nSkills: Python3, Fast API, Docker\nExperience:\n - Backend Developer at Google LLC\nEducation:\n - B.Tech in Computer Science\n

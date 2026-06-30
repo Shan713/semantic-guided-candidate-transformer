@@ -1,0 +1,7 @@
+Shantharam came across well on the screening call. He has a solid backend foundation and was able to speak clearly about Django, REST API development, and the kinds of tradeoffs he made in recent projects. He described backend work on IoT-enabled systems, including sensor onboarding and OTA firmware delivery, with enough detail to suggest real hands-on experience rather than only classroom familiarity.
+
+He also showed good awareness of distributed systems concepts, networking fundamentals, and practical problem solving. He was comfortable explaining TCP/IP, MQTT, and how those pieces fit into a device-management workflow. His ontology-driven sensor registration example was a strong signal that he can think in structured systems terms and connect data modeling with automation.
+
+On the plus side, he seems strong in Python and backend execution, and he gave credible examples of working across APIs, PostgreSQL, and debugging. The main improvement area is frontend exposure; he appears much stronger on backend than on UI work. He would also benefit from deeper cloud deployment experience and more production-scale ownership, especially around observability and release management.
+
+Overall, he looks like a good backend-focused candidate with IoT and systems exposure, strong problem-solving ability, and enough practical project work to merit further review.

@@ -1,0 +1,85 @@
+{
+  "candidate_id": "ad279f1c138f26eae3e53eec154cc5b4bb0940028c317876d3be0dce6044538e",
+  "full_name": "John Doe",
+  "emails": [
+    "john.doe@example.com"
+  ],
+  "phones": [
+    "+14155552671"
+  ],
+  "location": {},
+  "links": {
+    "other": []
+  },
+  "skills": [],
+  "experience": [],
+  "education": [],
+  "provenance": [
+    {
+      "field": "full_name",
+      "source": "recruiter_csv",
+      "method": "csv_parsing"
+    },
+    {
+      "field": "emails",
+      "source": "recruiter_csv",
+      "method": "csv_parsing"
+    },
+    {
+      "field": "phones",
+      "source": "recruiter_csv",
+      "method": "csv_parsing"
+    },
+    {
+      "field": "location",
+      "source": "recruiter_csv",
+      "method": "csv_parsing"
+    },
+    {
+      "field": "emails",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "phones",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "links",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "skills",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "experience",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "education",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "location",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "years_experience",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "headline",
+      "source": "fusion",
+      "method": "merge"
+    }
+  ],
+  "overall_confidence": 0.4838881578947369
+}

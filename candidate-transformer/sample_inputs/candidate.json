@@ -1,8 +1,0 @@
-{
-  "id": "ats-0001",
-  "candidateName": "Jane Smith",
-  "emails": ["jane.smith@example.com"],
-  "phones": ["+44 20 7946 0958"],
-  "location": "London",
-  "skills": ["JavaScript", "React"]
-}

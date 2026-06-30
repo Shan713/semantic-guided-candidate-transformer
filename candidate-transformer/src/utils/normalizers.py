@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from typing import Iterable
 import re
+from urllib.parse import urlsplit, urlunsplit
 
 from phonenumbers import parse as _parse, format_number, PhoneNumberFormat, NumberParseException
 
@@ -49,3 +50,18 @@ def normalize_phone(raw: str, default_region: str | None = None) -> str | None:
         if not digits:
             return None
         return digits
+
+
+def normalize_url(raw: str | None) -> str | None:
+    if not raw:
+        return None
+    text = raw.strip()
+    if not text:
+        return None
+    if not text.startswith(("http://", "https://")):
+        text = f"https://{text.lstrip('/')}"
+    split = urlsplit(text)
+    netloc = split.netloc.lower().removeprefix("www.")
+    path = split.path.rstrip("/")
+    normalized = urlunsplit((split.scheme.lower(), netloc, path, split.query, split.fragment))
+    return normalized.lower()

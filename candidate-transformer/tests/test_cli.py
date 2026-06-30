@@ -47,7 +47,7 @@ on_missing: null
         exit_code = main(
             [
                 "--csv",
-                str(Path("sample_inputs") / "candidate.csv"),
+                str(Path("sample_inputs") / "candidate_recruiter.csv"),
                 "--resume",
                 str(resume_path),
                 "--config",
@@ -60,6 +60,9 @@ on_missing: null
         assert exit_code == 0
         assert output_path.exists()
         payload = json.loads(output_path.read_text(encoding="utf-8"))
-        assert payload["full_name"]
-        assert payload["primary_email"]
-        assert payload["phone"]
+        assert isinstance(payload, list)
+        assert payload
+        first = payload[0]
+        assert first["full_name"]
+        assert first["primary_email"]
+        assert first["phone"]
