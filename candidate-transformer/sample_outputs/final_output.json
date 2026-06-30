@@ -1,0 +1,975 @@
+{
+  "candidate_id": "0e42cdf6dbd8c26d5a0ba16dbd3c01ae7b483056ad881084044e4cd0583201d8",
+  "full_name": "Shantharam P",
+  "emails": [
+    "shanthu2005@gmail.com"
+  ],
+  "phones": [
+    "+919944659335"
+  ],
+  "location": {
+    "city": "Coimbatore",
+    "country": "India"
+  },
+  "links": {
+    "other": []
+  },
+  "headline": "Backend Developer",
+  "skills": [
+    {
+      "name": "Python",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Django",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "REST API Development",
+      "confidence": 0.84,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "PostgreSQL",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "TCP/IP",
+      "confidence": 0.95,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "MQTT",
+      "confidence": 0.95,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "IoT",
+      "confidence": 0.84,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "C",
+      "confidence": 0.95,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "C++",
+      "confidence": 0.95,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Java",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "JavaScript",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Embedded C",
+      "confidence": 0.95,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Data Structures & Algorithms",
+      "confidence": 0.95,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "DBMS",
+      "confidence": 0.95,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Operating Systems",
+      "confidence": 0.95,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "OOP",
+      "confidence": 0.95,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Computer Networks",
+      "confidence": 0.95,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "REST APIs",
+      "confidence": 0.95,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "HTML",
+      "confidence": 0.95,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "CSS",
+      "confidence": 0.95,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Backend System Design",
+      "confidence": 0.95,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "SQL",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Supabase",
+      "confidence": 0.95,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Knowledge Graphs",
+      "confidence": 0.95,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Semantic Data Organization",
+      "confidence": 0.95,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "HTTP/HTTPS",
+      "confidence": 0.95,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "DistributedSystemsFundamen- tals",
+      "confidence": 0.95,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Pandas",
+      "confidence": 1.0,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Sensor Integration",
+      "confidence": 0.95,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Arduino IDE",
+      "confidence": 0.95,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Keil µVision",
+      "confidence": 0.95,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Git",
+      "confidence": 0.95,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Linux Fundamentals",
+      "confidence": 0.95,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Wireshark Automation & Engineering Python Scripting",
+      "confidence": 0.95,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "API Integration",
+      "confidence": 0.95,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Version Control",
+      "confidence": 0.95,
+      "sources": [
+        "skill_ontology"
+      ]
+    },
+    {
+      "name": "Debugging Practices",
+      "confidence": 0.95,
+      "sources": [
+        "skill_ontology"
+      ]
+    }
+  ],
+  "experience": [
+    {
+      "company": "Sony SSUP",
+      "title": "Backend Intern",
+      "start": "2024-12-01",
+      "end": "2025-09-01",
+      "summary": "Built backend-integrated IoT workflows for sensor onboarding and device management. Implemented an OTA firmware update framework for microcontroller delivery. Worked on ontology-driven discovery for automated sensor registration."
+    },
+    {
+      "company": "Sony SSUP",
+      "title": "Intern",
+      "start": "2024-12-30",
+      "end": "2025-09-30",
+      "summary": "Developed backend-integrated IoT solutions for automated sensor onboarding and device management. Built a custom OTA firmware update framework for reliable microcontroller firmware delivery. Designed an Automatic Sensor Registration (ASR) system enabling plug-and-play deployment using ontology-driven discovery and LLM-assisted workflows. Worked with embedded systems, networking protocols, and automation pipelines for scalable IoT de- ployments."
+    },
+    {
+      "company": "GalaxyZ Space",
+      "title": "Software Engineer",
+      "start": "2025-04-01",
+      "end": "2025-11-01",
+      "summary": "Developed Django backend services for workflow management. Integrated Supabase/PostgreSQL for structured application data. Supported deployment, debugging, and API integration."
+    },
+    {
+      "company": "GalaxyZ Space",
+      "title": "Software Engineer",
+      "start": "2025-04-30",
+      "end": "2025-11-30",
+      "summary": "Developed and deployed backend services using Django for educational workflows and platform man- agement. Integrated Supabase/PostgreSQL for managing structured application data efficiently. Contributed to deployment, debugging, API integration, and maintenance of the organization’s official website."
+    },
+    {
+      "company": "GalaxyZ Space",
+      "title": "Backend Engineer",
+      "summary": "Strong backend intern profile with Django, Python, REST API development, IoT backend work, and solid networking fundamentals."
+    }
+  ],
+  "education": [
+    {
+      "institution": "Amrita Vishwa Vidyapeetham",
+      "degree": "Bachelor of Technology",
+      "field": "Computer Science and Engineering",
+      "end_year": 2027
+    },
+    {
+      "institution": "Amrita Vishwa Vidyapeetham",
+      "degree": "Bachelor of Technology",
+      "end_year": 2027
+    },
+    {
+      "institution": "SRVS National Higher Secondary School",
+      "degree": "Class 12",
+      "end_year": 2023
+    },
+    {
+      "institution": "SRVS National Higher Secondary School",
+      "degree": "Class 12th Board",
+      "end_year": 2023
+    }
+  ],
+  "provenance": [
+    {
+      "field": "full_name",
+      "source": "recruiter_csv",
+      "method": "csv_parsing"
+    },
+    {
+      "field": "emails",
+      "source": "recruiter_csv",
+      "method": "csv_parsing"
+    },
+    {
+      "field": "phones",
+      "source": "recruiter_csv",
+      "method": "csv_parsing"
+    },
+    {
+      "field": "location",
+      "source": "recruiter_csv",
+      "method": "csv_parsing"
+    },
+    {
+      "field": "headline",
+      "source": "recruiter_csv",
+      "method": "csv_parsing"
+    },
+    {
+      "field": "experience",
+      "source": "recruiter_csv",
+      "method": "csv_parsing"
+    },
+    {
+      "field": "recruiter_notes",
+      "source": "recruiter_csv",
+      "method": "csv_parsing"
+    },
+    {
+      "field": "company",
+      "source": "company_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "job_title",
+      "source": "job_title_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "country",
+      "source": "country_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "full_name",
+      "source": "ats_json",
+      "method": "json_parsing"
+    },
+    {
+      "field": "emails",
+      "source": "ats_json",
+      "method": "json_parsing"
+    },
+    {
+      "field": "phones",
+      "source": "ats_json",
+      "method": "json_parsing"
+    },
+    {
+      "field": "location",
+      "source": "ats_json",
+      "method": "json_parsing"
+    },
+    {
+      "field": "headline",
+      "source": "ats_json",
+      "method": "json_parsing"
+    },
+    {
+      "field": "skills",
+      "source": "ats_json",
+      "method": "json_parsing"
+    },
+    {
+      "field": "skills",
+      "source": "ats_json",
+      "method": "json_parsing"
+    },
+    {
+      "field": "skills",
+      "source": "ats_json",
+      "method": "json_parsing"
+    },
+    {
+      "field": "skills",
+      "source": "ats_json",
+      "method": "json_parsing"
+    },
+    {
+      "field": "skills",
+      "source": "ats_json",
+      "method": "json_parsing"
+    },
+    {
+      "field": "skills",
+      "source": "ats_json",
+      "method": "json_parsing"
+    },
+    {
+      "field": "skills",
+      "source": "ats_json",
+      "method": "json_parsing"
+    },
+    {
+      "field": "experience",
+      "source": "ats_json",
+      "method": "json_parsing"
+    },
+    {
+      "field": "experience",
+      "source": "ats_json",
+      "method": "json_parsing"
+    },
+    {
+      "field": "education",
+      "source": "ats_json",
+      "method": "json_parsing"
+    },
+    {
+      "field": "education",
+      "source": "ats_json",
+      "method": "json_parsing"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "company",
+      "source": "company_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "job_title",
+      "source": "job_title_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "job_title",
+      "source": "job_title_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "degree",
+      "source": "degree_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "degree",
+      "source": "degree_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "full_name",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "emails",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "phones",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "headline",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "experience",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "experience",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "education",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "education",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "projects",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "skill_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "job_title",
+      "source": "job_title_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "degree",
+      "source": "degree_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "degree",
+      "source": "degree_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "skills",
+      "source": "ats_json",
+      "method": "json_parsing"
+    },
+    {
+      "field": "skills",
+      "source": "resume_pdf",
+      "method": "pdf_text_extraction"
+    },
+    {
+      "field": "emails",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "phones",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "links",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "skills",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "experience",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "education",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "location",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "years_experience",
+      "source": "fusion",
+      "method": "merge"
+    },
+    {
+      "field": "headline",
+      "source": "fusion",
+      "method": "merge"
+    }
+  ],
+  "overall_confidence": 0.6397857171080855
+}
