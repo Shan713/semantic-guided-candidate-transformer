@@ -45,7 +45,7 @@ flowchart TD
 ## Folder Structure
 
 ```text
-candidate-transformer/
+.
 ├── README.md
 ├── Design Decisions.md
 ├── EdgeCases.md
