@@ -21,7 +21,7 @@ from src.models.domain_models import (
 )
 from src.transformation.config import load_transformation_config_bundle
 from src.utils.ids import deterministic_candidate_id, new_uuid_hex
-from src.utils.normalizers import dedupe_keep_order, normalize_email, normalize_phone, normalize_whitespace
+from src.utils.normalizers import dedupe_keep_order, normalize_company_key, normalize_email, normalize_phone, normalize_whitespace
 
 
 class CandidateFusionEngine(BaseFusionEngine):
@@ -564,11 +564,18 @@ class CandidateFusionEngine(BaseFusionEngine):
         )
 
     def _experiences_match(self, left: Experience, right: Experience) -> bool:
-        left_company = self._experience_key_value(left.company_canonical or left.company)
-        right_company = self._experience_key_value(right.company_canonical or right.company)
+        # Use normalized company keys for comparison (handles "GalaxyZ Space" vs "Galaxy Z Space")
+        left_company_canonical = self._company_key_value(left.company_canonical)
+        right_company_canonical = self._company_key_value(right.company_canonical)
+        left_company_raw = self._company_key_value(left.company)
+        right_company_raw = self._company_key_value(right.company)
+        # Match if canonical companies match, OR if raw company names match
+        company_match = bool(
+            (left_company_canonical and right_company_canonical and left_company_canonical == right_company_canonical)
+            or (left_company_raw and right_company_raw and left_company_raw == right_company_raw)
+        )
         left_title = self._experience_key_value(left.title_canonical or left.title)
         right_title = self._experience_key_value(right.title_canonical or right.title)
-        company_match = bool(left_company and right_company and left_company == right_company)
         title_match = bool(left_title and right_title and left_title == right_title)
         date_overlap = self._date_ranges_overlap(left.start, left.end, right.start, right.end)
         summary_similarity = self._text_similarity(left.summary, right.summary)
@@ -597,6 +604,10 @@ class CandidateFusionEngine(BaseFusionEngine):
     def _experience_key_value(self, value: str | None) -> str | None:
         normalized = normalize_whitespace(value)
         return normalized.lower() if normalized else None
+
+    def _company_key_value(self, value: str | None) -> str | None:
+        """Normalize a company name for matching across sources."""
+        return normalize_company_key(value)
 
     def _date_ranges_overlap(self, left_start, left_end, right_start, right_end) -> bool:
         left_begin = left_start or left_end

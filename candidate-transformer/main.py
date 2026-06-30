@@ -19,7 +19,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--csv", action="append", default=[], help="CSV source file path")
     parser.add_argument("--ats", action="append", default=[], help="ATS JSON source file path")
     parser.add_argument("--resume", action="append", default=[], help="Resume PDF or DOCX source file path")
-    parser.add_argument("--config", help="Projection config file path", default=None)
+    parser.add_argument("--config", "--projection", help="Projection config file path", default=None)
     parser.add_argument("--output", help="Output JSON file path", required=True)
     args = parser.parse_args(argv)
 

@@ -1,0 +1,8 @@
+{
+  "mode": "default",
+  "output_schema_name": "assignment_default",
+  "output_schema_version": "1.0",
+  "include_provenance": true,
+  "include_confidence": true,
+  "on_missing": "null"
+}

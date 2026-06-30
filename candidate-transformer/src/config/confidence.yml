@@ -9,7 +9,7 @@ score_components:
   missing_value_penalty_weight: 0.10
 caps:
   single_source_max: 0.85
-  unresolved_conflict_max: 0.65
+  unresolved_conflict_max: 0.78
 thresholds:
   high: 0.80
   medium: 0.60
@@ -25,3 +25,10 @@ reason_codes:
   - unresolved_conflict
   - missing_evidence
   - llm_penalty_applied
+category_weights:
+  identity: 0.30
+  experience: 0.25
+  skills: 0.20
+  education: 0.15
+  location: 0.05
+  context: 0.05

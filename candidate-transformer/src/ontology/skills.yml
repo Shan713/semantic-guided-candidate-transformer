@@ -146,3 +146,177 @@ entries:
     parent_category: Relational Database
     related_to: [SQL]
     metadata: {type: relational}
+  - canonical_name: REST APIs
+    aliases: [REST API, REST API Development, RESTful APIs, RESTful API, REST API Design, RESTful Web Services]
+    category: API
+    parent_category: Web Development
+    related_to: [HTTP/HTTPS, JSON, OpenAPI]
+    metadata: {protocol: HTTP}
+  - canonical_name: TCP/IP
+    aliases: [TCP IP, tcp/ip stack, tcpip]
+    category: Protocol
+    parent_category: Networking
+    related_to: [HTTP/HTTPS, MQTT, Socket Programming]
+    metadata: {layer: transport}
+  - canonical_name: MQTT
+    aliases: [mqtt protocol, message queue telemetry transport]
+    category: Protocol
+    parent_category: IoT
+    related_to: [TCP/IP, IoT, Sensor Integration]
+    metadata: {layer: application}
+  - canonical_name: C
+    aliases: [c language, ansi c, c programming]
+    category: Programming Language
+    parent_category: Systems Programming
+    related_to: [C++, Embedded C, Linux]
+    metadata: {level: systems}
+  - canonical_name: C++
+    aliases: [cpp, c plus plus, c++ programming]
+    category: Programming Language
+    parent_category: Systems Programming
+    related_to: [C, Embedded C, Qt]
+    metadata: {level: systems}
+  - canonical_name: Embedded C
+    aliases: [embedded c programming, embedded-c]
+    category: Programming Language
+    parent_category: Embedded Systems
+    related_to: [C, C++, Microcontrollers]
+    metadata: {domain: embedded}
+  - canonical_name: Data Structures and Algorithms
+    aliases: [DSA, Data Structures & Algorithms, algorithms and data structures, DS Algo]
+    category: CS Fundamental
+    parent_category: Computer Science
+    related_to: [C++, Java, Python]
+    metadata: {domain: computer_science}
+  - canonical_name: Git
+    aliases: [git version control, git vcs, git scm, git CLI]
+    category: DevOps Tool
+    parent_category: Version Control
+    related_to: [GitHub, GitLab, Version Control]
+    metadata: {domain: version_control}
+  - canonical_name: HTML
+    aliases: [html5, hypertext markup language]
+    category: Markup Language
+    parent_category: Web Development
+    related_to: [CSS, JavaScript, Web Development]
+    metadata: {domain: web}
+  - canonical_name: CSS
+    aliases: [css3, cascading style sheets]
+    category: Stylesheet Language
+    parent_category: Web Development
+    related_to: [HTML, JavaScript, Responsive Design]
+    metadata: {domain: web}
+  - canonical_name: IoT
+    aliases: [internet of things, iot device, iot platform]
+    category: Domain
+    parent_category: Embedded Systems
+    related_to: [MQTT, TCP/IP, Embedded C, Sensor Integration]
+    metadata: {domain: iot}
+  - canonical_name: HTTP/HTTPS
+    aliases: [HTTP, HTTPS, HTTP protocol, HTTP/HTTPS protocol]
+    category: Protocol
+    parent_category: Networking
+    related_to: [REST APIs, TCP/IP, SSL/TLS]
+    metadata: {layer: application}
+  - canonical_name: Linux
+    aliases: [linux os, linux operating system, gnu linux, linux fundamentals, linux administration]
+    category: Operating System
+    parent_category: Infrastructure
+    related_to: [Docker, Kubernetes, Bash, Shell Scripting]
+    metadata: {type: unix_like}
+  - canonical_name: Arduino IDE
+    aliases: [arduino, arduino development, arduino platform]
+    category: Tool
+    parent_category: Embedded Systems
+    related_to: [Embedded C, C++, Sensor Integration]
+    metadata: {domain: embedded}
+  - canonical_name: Database Management Systems
+    aliases: [DBMS, database management, database systems, db management]
+    category: CS Fundamental
+    parent_category: Databases
+    related_to: [SQL, PostgreSQL, MySQL]
+    metadata: {domain: database_theory}
+  - canonical_name: Operating Systems
+    aliases: [OS, operating system, os fundamentals, operating systems concepts]
+    category: CS Fundamental
+    parent_category: Computer Science
+    related_to: [Linux, C, Computer Networks]
+    metadata: {domain: systems}
+  - canonical_name: Object-Oriented Programming
+    aliases: [OOP, OOPs, object oriented programming, oop concepts, object oriented design]
+    category: CS Fundamental
+    parent_category: Computer Science
+    related_to: [C++, Java, Python]
+    metadata: {domain: programming_paradigm}
+  - canonical_name: Computer Networks
+    aliases: [computer networking, networking, computer network, cn, network fundamentals]
+    category: CS Fundamental
+    parent_category: Computer Science
+    related_to: [TCP/IP, HTTP/HTTPS, MQTT]
+    metadata: {domain: networking}
+  - canonical_name: Supabase
+    aliases: [supabase platform, supabase db]
+    category: Platform
+    parent_category: Backend Development
+    related_to: [PostgreSQL, SQL, Firebase]
+    metadata: {type: baas}
+  - canonical_name: Distributed Systems
+    aliases: [distributed systems fundamentals, distributed computing, distributed architectures]
+    category: CS Fundamental
+    parent_category: Computer Science
+    related_to: [Docker, Kubernetes, Microservices]
+    metadata: {domain: distributed_computing}
+  - canonical_name: Embedded Systems
+    aliases: [embedded systems development, embedded systems programming, embedded systems engineering]
+    category: Domain
+    parent_category: Systems Engineering
+    related_to: [C, C++, Embedded C, IoT, Microcontrollers]
+    metadata: {domain: embedded}
+  - canonical_name: Sensor Integration
+    aliases: [sensor integration, sensor interfacing, sensor data acquisition]
+    category: Domain
+    parent_category: IoT
+    related_to: [IoT, Embedded Systems, MQTT]
+    metadata: {domain: iot}
+  - canonical_name: API Integration
+    aliases: [api integrations, third-party api integration, api connectivity]
+    category: Skill
+    parent_category: Web Development
+    related_to: [REST APIs, HTTP/HTTPS, Python]
+    metadata: {domain: integration}
+  - canonical_name: Version Control
+    aliases: [version control systems, vcs, source control, revision control]
+    category: Practice
+    parent_category: Software Engineering
+    related_to: [Git, GitHub, GitLab, CI/CD]
+    metadata: {domain: devops}
+  - canonical_name: Debugging
+    aliases: [debugging skills, code debugging, software debugging, debug]
+    category: Practice
+    parent_category: Software Engineering
+    related_to: [Python, C++, Git]
+    metadata: {domain: engineering_practice}
+  - canonical_name: Wireshark
+    aliases: [wireshark tool, wireshark analyzer]
+    category: Tool
+    parent_category: Networking
+    related_to: [TCP/IP, HTTP/HTTPS, Computer Networks]
+    metadata: {domain: network_analysis}
+  - canonical_name: Keil μVision
+    aliases: [keil uvision, keil mdk, keil ide, keil microvision]
+    category: Tool
+    parent_category: Embedded Systems
+    related_to: [C, Embedded C, Microcontrollers]
+    metadata: {domain: embedded_ide}
+  - canonical_name: Knowledge Graphs
+    aliases: [knowledge graph, semantic knowledge graphs, kg]
+    category: Domain
+    parent_category: Data Engineering
+    related_to: [Semantic Data, SPARQL, RDF, Ontology]
+    metadata: {domain: semantic_web}
+  - canonical_name: Semantic Data
+    aliases: [semantic data management, semantic data modeling, semantic technologies]
+    category: Domain
+    parent_category: Data Engineering
+    related_to: [Knowledge Graphs, RDF, SPARQL, Ontology]
+    metadata: {domain: semantic_web}

@@ -17,7 +17,32 @@ from src.transformation.config import load_transformation_config_bundle
 
 
 class ConfidenceEngine(BaseConfidenceEngine):
-    """Deterministic confidence scoring based on configured reliability weights."""
+    """Deterministic confidence scoring with category-aware weighting.
+
+    Overall confidence is computed from six weighted categories rather than a
+    simple average over fields, so identity fields (name, email, phone) carry
+    more weight than headline or links.
+
+    Category weights (configurable via confidence.yml):
+        identity   (full_name, emails, phones)  → 30%
+        experience (experience)                 → 25%
+        skills     (skills)                     → 20%
+        education  (education)                  → 15%
+        location   (location)                   →  5%
+        context    (headline, links, yoe)       →  5%
+    """
+
+    # ------------------------------------------------------------------
+    # Category definitions
+    # ------------------------------------------------------------------
+    _CATEGORIES: dict[str, list[str]] = {
+        "identity": ["full_name", "emails", "phones"],
+        "experience": ["experience"],
+        "skills": ["skills"],
+        "education": ["education"],
+        "location": ["location"],
+        "context": ["headline", "links", "years_experience"],
+    }
 
     def __init__(self, config_bundle: dict[str, Any] | None = None) -> None:
         self.config_bundle = config_bundle or load_transformation_config_bundle()
@@ -32,6 +57,10 @@ class ConfidenceEngine(BaseConfidenceEngine):
             SemanticResolutionStage.DETERMINISTIC_FUZZY_MATCH: 0.55,
             SemanticResolutionStage.UNKNOWN_VALUE: 0.20,
         }
+
+    # ------------------------------------------------------------------
+    # Public API
+    # ------------------------------------------------------------------
 
     def score(self, candidate: CanonicalCandidate, context) -> CanonicalCandidate:
         field_confidences: list[FieldConfidence] = []
@@ -67,6 +96,62 @@ class ConfidenceEngine(BaseConfidenceEngine):
             }
         )
 
+    def debug_summary(self, candidate: CanonicalCandidate) -> str:
+        """Return a human-readable confidence breakdown (Part 2: explainability).
+
+        Produces output like::
+
+            --------------------------------
+            Identity                    0.92
+            Experience                  0.83
+            Education                   0.91
+            Skills                      0.79
+            Location                    0.85
+            Context (headline/links)    0.72
+            --------------------------------
+            Overall                     0.84
+
+            Boosts
+            • Email matched across Resume ATS Recruiter
+            • Phone matched across Resume ATS Recruiter
+            • 3 sources agree on education
+
+            Penalties
+            • Experience present in 1 source only
+            • Skills from 1 source only
+        """
+        field_confidences: list[FieldConfidence] = []
+        for field_name in self._field_order():
+            field_confidences.append(self._score_field(candidate, field_name))
+
+        category_scores = self._category_scores(field_confidences)
+        overall = self._combine_scores(field_confidences)
+        boosts, penalties = self._collect_boost_penalties(field_confidences)
+
+        lines = ["--------------------------------"]
+        for cat_name in self._CATEGORIES:
+            cat_score = category_scores.get(cat_name, 0.0)
+            label = _CATEGORY_LABELS.get(cat_name, cat_name)
+            lines.append(f"{label:<30} {cat_score:.2f}")
+        lines.append("--------------------------------")
+        lines.append(f"{'Overall':<30} {overall:.2f}")
+        if boosts:
+            lines.append("")
+            lines.append("Boosts")
+            for b in boosts:
+                lines.append(f"  • {b}")
+        if penalties:
+            lines.append("")
+            lines.append("Penalties")
+            for p in penalties:
+                lines.append(f"  • {p}")
+        lines.append("--------------------------------")
+        return "\n".join(lines)
+
+    # ------------------------------------------------------------------
+    # Field-level scoring
+    # ------------------------------------------------------------------
+
     def _field_order(self) -> list[str]:
         return [
             "full_name",
@@ -87,7 +172,7 @@ class ConfidenceEngine(BaseConfidenceEngine):
         cross_source_agreement = self._cross_source_agreement(sources)
         extraction_quality = self._average_extraction_quality(evidence)
         semantic_certainty, semantic_reason = self._semantic_certainty(transformations, field_name, values)
-        conflict_penalty = self._conflict_penalty(values)
+        conflict_penalty = self._conflict_penalty(values, field_name)
         missing_penalty = self._missing_penalty(candidate, field_name, values)
 
         weights = self.confidence_config.get("score_components", {})
@@ -218,10 +303,20 @@ class ConfidenceEngine(BaseConfidenceEngine):
         return base, adjusted, override_applied
 
     def _cross_source_agreement(self, sources: list[str]) -> float:
+        """Score how many independent sources agree on this field.
+
+        The formula rewards additional confirming sources with diminishing
+        returns, bounded by [0, 1].  A single source yields 0.5; two sources
+        yield 0.75; three yield 0.875; asymptotically approaching 1.0.
+
+        This is more generous than the previous ``n / (n+1)`` for n>=2
+        while remaining principled and explainable.
+        """
         unique_sources = len(set(sources))
         if unique_sources == 0:
             return 0.0
-        return unique_sources / (unique_sources + 1.0)
+        # 1 - 1/2^n  →  n=1:0.5  n=2:0.75  n=3:0.875  n=4:0.9375
+        return 1.0 - (1.0 / (2.0 ** unique_sources))
 
     def _average_extraction_quality(self, evidence: list[Any]) -> float:
         qualities = [float(item.source.extraction_quality) for item in evidence if getattr(item, "source", None)]
@@ -239,7 +334,26 @@ class ConfidenceEngine(BaseConfidenceEngine):
             reasons.append(record.resolution_stage.value)
         return (sum(scores) / len(scores) if scores else 0.0), ",".join(self._dedupe_keep_order(reasons))
 
-    def _conflict_penalty(self, values: list[Any]) -> float:
+    _SCALAR_CONFLICT_FIELDS = frozenset({"full_name", "headline", "years_experience", "location"})
+
+    def _conflict_penalty(self, values: list[Any], field_name: str = "") -> float:
+        """Penalize genuine disagreement in scalar fields.
+
+        For list-type fields (emails, phones, skills, experience, education),
+        multiple unique values are expected (different positions, skills, etc.)
+        and do NOT represent conflicts.  Conflict penalty only applies to
+        scalar fields where multiple distinct values indicate disagreement.
+
+        The penalty increases progressively with more conflicting values:
+        - 2 conflicting values → 0.50 penalty
+        - 3 conflicting values → 0.67 penalty
+        - 4 conflicting values → 0.75 penalty
+
+        This ensures conflicts produce a larger reduction than simple absence
+        (missing = 0.25 max), as the user requested.
+        """
+        if field_name not in self._SCALAR_CONFLICT_FIELDS:
+            return 0.0
         normalized = [self._stringify(value) for value in values if self._stringify(value)]
         unique_count = len(set(normalized))
         if unique_count <= 1:
@@ -247,14 +361,27 @@ class ConfidenceEngine(BaseConfidenceEngine):
         return (unique_count - 1) / unique_count
 
     def _missing_penalty(self, candidate: CanonicalCandidate, field_name: str, values: list[Any]) -> float:
+        """Small reduction for missing values — simple absence is NOT conflict.
+
+        Required fields (full_name, emails, phones, skills) incur a mild 0.25
+        penalty when absent.  Non-required fields incur only 0.10.  Fields
+        with data incur no penalty.
+
+        These are deliberately small because missing data does not imply the
+        candidate is less qualified — only that the source didn't provide it.
+        """
         if values:
             return 0.0
         required_fields = {"full_name", "emails", "phones", "skills"}
         if field_name in required_fields:
-            return 1.0
+            return 0.25
         if field_name in {"experience", "education"} and getattr(candidate, field_name):
             return 0.0
-        return 0.5
+        return 0.10
+
+    # ------------------------------------------------------------------
+    # Overall score combination (category-aware)
+    # ------------------------------------------------------------------
 
     def _combine_breakdowns(self, field_confidences: list[FieldConfidence]) -> ConfidenceBreakdown:
         if not field_confidences:
@@ -294,9 +421,122 @@ class ConfidenceEngine(BaseConfidenceEngine):
         )
 
     def _combine_scores(self, field_confidences: list[FieldConfidence]) -> float:
+        """Combine field-level confidences using category-aware weighting.
+
+        Step 1 — compute per-category scores (average of fields in that category).
+        Step 2 — weighted average of categories using configured category weights.
+
+        Falls back to source-count-weighted average if no category weights are
+        configured.
+        """
         if not field_confidences:
             return 0.0
-        return sum(item.score for item in field_confidences) / len(field_confidences)
+
+        cat_weights = self.confidence_config.get("category_weights", {})
+        if not cat_weights:
+            # Fallback: source-count-weighted average (legacy behavior)
+            total_weight = sum(max(item.source_count, 1) for item in field_confidences)
+            if total_weight == 0:
+                return sum(item.score for item in field_confidences) / len(field_confidences)
+            weighted = sum(
+                item.score * max(item.source_count, 1) for item in field_confidences
+            ) / total_weight
+            return self._apply_caps(weighted, field_confidences)
+
+        # Category-aware weighted average
+        category_scores = self._category_scores(field_confidences)
+        total_weight = 0.0
+        weighted_sum = 0.0
+        for cat_name, weight in cat_weights.items():
+            cat_weight = float(weight)
+            cat_score = category_scores.get(cat_name)
+            if cat_score is not None:
+                weighted_sum += cat_score * cat_weight
+                total_weight += cat_weight
+
+        if total_weight == 0:
+            return sum(item.score for item in field_confidences) / len(field_confidences)
+
+        weighted = weighted_sum / total_weight
+        return self._apply_caps(weighted, field_confidences)
+
+    def _apply_caps(self, weighted: float, field_confidences: list[FieldConfidence]) -> float:
+        """Apply configured caps to the overall score."""
+        caps = self.confidence_config.get("caps", {})
+        single_source_max = caps.get("single_source_max")
+        unresolved_conflict_max = caps.get("unresolved_conflict_max")
+        if single_source_max is not None:
+            max_sources = max((item.source_count for item in field_confidences), default=0)
+            if max_sources <= 1:
+                weighted = min(weighted, float(single_source_max))
+        if unresolved_conflict_max is not None and weighted > float(unresolved_conflict_max):
+            fields_with_conflict = sum(
+                1 for item in field_confidences if item.breakdown.conflict_penalty > 0
+            )
+            total_fields = len(field_confidences)
+            if total_fields > 0 and fields_with_conflict / total_fields >= 0.5:
+                weighted = min(weighted, float(unresolved_conflict_max))
+        return weighted
+
+    def _category_scores(self, field_confidences: list[FieldConfidence]) -> dict[str, float]:
+        """Compute per-category scores by averaging fields within each category."""
+        field_map: dict[str, FieldConfidence] = {fc.field: fc for fc in field_confidences}
+        category_scores: dict[str, float] = {}
+        for cat_name, fields in self._CATEGORIES.items():
+            cat_fields = [field_map[f] for f in fields if f in field_map]
+            if cat_fields:
+                # Weight by source_count within category
+                total_weight = sum(max(fc.source_count, 1) for fc in cat_fields)
+                if total_weight > 0:
+                    category_scores[cat_name] = sum(
+                        fc.score * max(fc.source_count, 1) for fc in cat_fields
+                    ) / total_weight
+                else:
+                    category_scores[cat_name] = sum(fc.score for fc in cat_fields) / len(cat_fields)
+        return category_scores
+
+    # ------------------------------------------------------------------
+    # Explainability helpers (Part 2 — debug mode)
+    # ------------------------------------------------------------------
+
+    def _collect_boost_penalties(
+        self, field_confidences: list[FieldConfidence]
+    ) -> tuple[list[str], list[str]]:
+        """Analyze field confidences and produce human-readable boost/penalty summaries."""
+        boosts: list[str] = []
+        penalties: list[str] = []
+
+        for fc in field_confidences:
+            field_label = _FIELD_LABELS.get(fc.field, fc.field)
+            bd = fc.breakdown
+
+            # Boosts
+            if bd.cross_source_agreement >= 0.875 and fc.source_count >= 3:
+                boosts.append(f"{field_label} matched across {fc.source_count} sources")
+            elif bd.cross_source_agreement >= 0.75 and fc.source_count >= 2:
+                boosts.append(f"{field_label} matched across {fc.source_count} sources")
+            if bd.semantic_certainty >= 0.90 and fc.source_count > 0:
+                boosts.append(f"{field_label} semantically resolved with high certainty")
+            if bd.source_reliability >= 0.85:
+                boosts.append(f"{field_label} from high-reliability source")
+            if bd.extraction_quality >= 0.85:
+                boosts.append(f"{field_label} extracted with high quality")
+
+            # Penalties
+            if bd.conflict_penalty > 0:
+                penalties.append(f"{field_label} has conflicting values across sources")
+            if fc.source_count == 1 and bd.cross_source_agreement <= 0.5:
+                penalties.append(f"{field_label} present in 1 source only")
+            if fc.source_count == 0:
+                penalties.append(f"{field_label} missing from all sources")
+            if bd.semantic_certainty <= 0.55 and bd.semantic_certainty > 0:
+                penalties.append(f"{field_label} resolved via fuzzy match (lower certainty)")
+
+        return boosts, penalties
+
+    # ------------------------------------------------------------------
+    # Reason codes
+    # ------------------------------------------------------------------
 
     def _reason_codes(
         self,
@@ -331,6 +571,10 @@ class ConfidenceEngine(BaseConfidenceEngine):
             reason_codes.append("missing_evidence")
         return self._dedupe_keep_order(reason_codes)
 
+    # ------------------------------------------------------------------
+    # Utilities
+    # ------------------------------------------------------------------
+
     def _stringify(self, value: Any) -> str | None:
         if value is None:
             return None
@@ -351,3 +595,30 @@ class ConfidenceEngine(BaseConfidenceEngine):
 
     def _clamp(self, value: float) -> float:
         return max(0.0, min(1.0, value))
+
+
+# ------------------------------------------------------------------
+# Human-readable labels for debug output
+# ------------------------------------------------------------------
+
+_CATEGORY_LABELS: dict[str, str] = {
+    "identity": "Identity (Name/Email/Phone)",
+    "experience": "Experience",
+    "skills": "Skills",
+    "education": "Education",
+    "location": "Location",
+    "context": "Context (Headline/Links)",
+}
+
+_FIELD_LABELS: dict[str, str] = {
+    "full_name": "Full Name",
+    "emails": "Email",
+    "phones": "Phone",
+    "location": "Location",
+    "links": "Links",
+    "headline": "Headline",
+    "years_experience": "Years Experience",
+    "skills": "Skills",
+    "experience": "Experience",
+    "education": "Education",
+}

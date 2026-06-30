@@ -20,6 +20,7 @@ from src.models.enums import (
 )
 from src.ontology.ontology_registry import OntologyRegistry
 from src.utils.ids import new_uuid_hex
+from src.utils.normalizers import normalize_company_name, repair_ocr_tokens
 
 logger = logging.getLogger("sgct.semantic.engine")
 
@@ -33,8 +34,10 @@ class SemanticResolutionEngine:
         if not value:
             return None
         original = value
+        # Apply generic OCR repair before lookup
+        lookup_value = repair_ocr_tokens(value) or value
         # 1. exact alias
-        ent = self.registry.get_by_alias(EntityDomain.SKILL, value)
+        ent = self.registry.get_by_alias(EntityDomain.SKILL, lookup_value)
         stage = None
         selected = None
         candidates = []
@@ -44,7 +47,7 @@ class SemanticResolutionEngine:
             candidates = [ent.canonical_name]
         else:
             # 2. canonical
-            ent = self.registry.get_by_canonical(EntityDomain.SKILL, value)
+            ent = self.registry.get_by_canonical(EntityDomain.SKILL, lookup_value)
             if ent:
                 stage = SemanticResolutionStage.CANONICAL_MATCH
                 selected = ent
@@ -57,7 +60,7 @@ class SemanticResolutionEngine:
             for (doc, key), e in self.registry.state.canonical_index.items():
                 if doc != EntityDomain.SKILL.value:
                     continue
-                if e.category and e.category.lower() == value.lower():
+                if e.category and e.category.lower() == lookup_value.lower():
                     parent = e
                     break
             if parent:
@@ -71,7 +74,7 @@ class SemanticResolutionEngine:
             for (doc, key), e in self.registry.state.canonical_index.items():
                 if doc != EntityDomain.SKILL.value:
                     continue
-                if any(r.lower() == value.lower() for r in e.related_to):
+                if any(r.lower() == lookup_value.lower() for r in e.related_to):
                     stage = SemanticResolutionStage.ENTITY_LINKING
                     selected = e
                     candidates = [e.canonical_name]
@@ -79,7 +82,7 @@ class SemanticResolutionEngine:
 
         # 5. fuzzy
         if not selected:
-            ent = self.registry.deterministic_fuzzy_match(EntityDomain.SKILL, value, self.fuzzy_threshold)
+            ent = self.registry.deterministic_fuzzy_match(EntityDomain.SKILL, lookup_value, self.fuzzy_threshold)
             if ent:
                 stage = SemanticResolutionStage.DETERMINISTIC_FUZZY_MATCH
                 selected = ent
@@ -221,15 +224,21 @@ class SemanticResolutionEngine:
         if not value:
             return None
         original = value
-        selected = self.registry.get_by_alias(domain, value) or self.registry.get_by_canonical(domain, value)
+        # Pre-normalize the lookup value based on domain
+        lookup = value
+        if domain == EntityDomain.COMPANY:
+            lookup = normalize_company_name(value) or value
+        else:
+            lookup = repair_ocr_tokens(value) or value
+        selected = self.registry.get_by_alias(domain, lookup) or self.registry.get_by_canonical(domain, lookup)
         stage = None
         candidates = []
         if selected:
-            stage = SemanticResolutionStage.CANONICAL_MATCH if selected.canonical_name.lower() == value.lower() else SemanticResolutionStage.EXACT_ALIAS_MATCH
+            stage = SemanticResolutionStage.CANONICAL_MATCH if selected.canonical_name.lower() == lookup.lower() else SemanticResolutionStage.EXACT_ALIAS_MATCH
             candidates = [selected.canonical_name]
         else:
             # fuzzy
-            ent = self.registry.deterministic_fuzzy_match(domain, value, self.fuzzy_threshold)
+            ent = self.registry.deterministic_fuzzy_match(domain, lookup, self.fuzzy_threshold)
             if ent:
                 selected = ent
                 stage = SemanticResolutionStage.DETERMINISTIC_FUZZY_MATCH

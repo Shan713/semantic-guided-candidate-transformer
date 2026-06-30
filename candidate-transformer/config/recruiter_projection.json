@@ -1,0 +1,22 @@
+{
+  "fields": [
+    {
+      "path": "full_name"
+    },
+    {
+      "path": "headline"
+    },
+    {
+      "path": "experience"
+    },
+    {
+      "path": "skills"
+    },
+    {
+      "path": "links"
+    }
+  ],
+  "include_confidence": true,
+  "include_provenance": false,
+  "on_missing": "null"
+}

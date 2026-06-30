@@ -24,7 +24,7 @@ from src.models.domain_models import (
 )
 from src.models.enums import EntityDomain, ResolverType, SemanticResolutionStage, SourceType
 from src.utils.ids import deterministic_candidate_id, new_uuid_hex
-from src.utils.normalizers import dedupe_keep_order, normalize_email, normalize_extracted_text, normalize_merged_words, normalize_phone, normalize_whitespace
+from src.utils.normalizers import dedupe_keep_order, filter_skill_tokens, is_likely_skill_token, normalize_email, normalize_extracted_text, normalize_merged_words, normalize_phone, normalize_whitespace, repair_ocr_tokens
 
 
 SECTION_ALIASES = {
@@ -182,6 +182,8 @@ def make_records(
 
 def build_text_fragment(text: str, source: SourceMetadata, source_label: str) -> CandidateFragment:
     normalized_text = normalize_extracted_text(text.replace("\\n", "\n")) or ""
+    # Apply generic OCR repair to the full extracted text
+    normalized_text = repair_ocr_tokens(normalized_text) or normalized_text
     lines = [normalize_merged_words(normalize_whitespace(line)) for line in normalized_text.splitlines()]
     lines = [line for line in lines if line]
     sections = _split_sections(lines)
@@ -195,6 +197,8 @@ def build_text_fragment(text: str, source: SourceMetadata, source_label: str) ->
     link_values = [value for value in link_values if value]
 
     summary_text = _combine_lines(sections.get("summary", []))
+    # Apply OCR repair to summary/headline
+    summary_text = repair_ocr_tokens(summary_text) or summary_text
     headline = summary_text or None
 
     skills = _parse_skills(sections.get("skills", []))
@@ -324,6 +328,10 @@ def build_text_fragment(text: str, source: SourceMetadata, source_label: str) ->
 
     education_objects: list[Education] = []
     for education in educations:
+        # Apply OCR repair to education text fields
+        institution = repair_ocr_tokens(education["institution"]) or education["institution"]
+        degree = repair_ocr_tokens(education["degree"]) or education["degree"]
+        field = repair_ocr_tokens(education.get("field")) or education.get("field")
         fe, tr, dt, pr = make_records(
             field_name="education",
             original_value=education["raw"],
@@ -338,9 +346,9 @@ def build_text_fragment(text: str, source: SourceMetadata, source_label: str) ->
         provenance.append(pr)
         education_objects.append(
             Education(
-                institution=education["institution"],
-                degree=education["degree"],
-                field=education.get("field"),
+                institution=institution,
+                degree=degree,
+                field=field,
                 start_year=education.get("start_year"),
                 end_year=education.get("end_year"),
                 confidence=1.0,
@@ -467,6 +475,8 @@ def _parse_skills(lines: list[str]) -> list[str]:
         normalized_line = normalize_whitespace(line) or ""
         if not normalized_line:
             continue
+        # Apply OCR repair before splitting
+        normalized_line = repair_ocr_tokens(normalized_line) or normalized_line
         for prefix in SKILL_SECTION_PREFIXES:
             normalized_line = re.sub(rf"(?i)\b{re.escape(prefix)}\b", "|", normalized_line)
         tokens = re.split(r"[|,;\n]", normalized_line)
@@ -476,9 +486,12 @@ def _parse_skills(lines: list[str]) -> list[str]:
                 continue
             text = text.strip("-•")
             text = _normalize_skill_token(text)
+            # Repair OCR artifacts in individual tokens
+            text = repair_ocr_tokens(text) or text
             if text and text not in SKILL_SECTION_PREFIXES:
                 cleaned.append(text)
-    return dedupe_keep_order(cleaned)
+    # Filter orphan/noise tokens before dedup
+    return filter_skill_tokens(dedupe_keep_order(cleaned))
 
 
 def _parse_experiences(lines: list[str]) -> list[dict[str, Any]]:
@@ -521,6 +534,8 @@ def _parse_experiences(lines: list[str]) -> list[dict[str, Any]]:
     parsed_entries: list[dict[str, Any]] = []
     for entry in entries:
         summary = normalize_whitespace(" ".join(entry.get("summary_lines", [])))
+        # Apply OCR repair to experience summaries (generic)
+        summary = repair_ocr_tokens(summary) or summary
         parsed_entries.append(
             {
                 "company": entry["company"],

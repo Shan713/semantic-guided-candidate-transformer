@@ -265,10 +265,10 @@
     },
     {
       "company": "Galaxy Z Space",
-      "title": "Backend Engineer",
+      "title": "Software Engineer",
       "start": "2025-04-30",
       "end": "2025-11-30",
-      "summary": "Strong backend intern profile with Django, Python, REST API development, IoT backend work, and solid networking fundamentals. | Developed Django backend services for workflow management. Integrated Supabase/PostgreSQL for structured application data. Supported deployment, debugging, and API integration. | Developed and deployed backend services using Django for educational workflows and platform management. Integrated Supabase/PostgreSQL for managing structured application data efficiently. Contributed to deployment, debugging, API integration, and maintenance of the organization's official website."
+      "summary": "Developed Django backend services for workflow management. Integrated Supabase/PostgreSQL for structured application data. Supported deployment, debugging, and API integration. | Developed and deployed backend services using Django for educational workflows and platform management. Integrated Supabase/PostgreSQL for managing structured application data efficiently. Contributed to deployment, debugging, API integration, and maintenance of the organization's official website."
     }
   ],
   "education": [
@@ -285,56 +285,6 @@
     }
   ],
   "provenance": [
-    {
-      "field": "full_name",
-      "source": "recruiter_csv",
-      "method": "csv_parsing"
-    },
-    {
-      "field": "emails",
-      "source": "recruiter_csv",
-      "method": "csv_parsing"
-    },
-    {
-      "field": "phones",
-      "source": "recruiter_csv",
-      "method": "csv_parsing"
-    },
-    {
-      "field": "location",
-      "source": "recruiter_csv",
-      "method": "csv_parsing"
-    },
-    {
-      "field": "headline",
-      "source": "recruiter_csv",
-      "method": "csv_parsing"
-    },
-    {
-      "field": "experience",
-      "source": "recruiter_csv",
-      "method": "csv_parsing"
-    },
-    {
-      "field": "recruiter_notes",
-      "source": "recruiter_csv",
-      "method": "csv_parsing"
-    },
-    {
-      "field": "company",
-      "source": "company_ontology",
-      "method": "ontology_lookup"
-    },
-    {
-      "field": "job_title",
-      "source": "job_title_ontology",
-      "method": "ontology_lookup"
-    },
-    {
-      "field": "country",
-      "source": "country_ontology",
-      "method": "ontology_lookup"
-    },
     {
       "field": "full_name",
       "source": "ats_json",
@@ -381,8 +331,23 @@
       "method": "ontology_lookup"
     },
     {
+      "field": "company",
+      "source": "company_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "job_title",
+      "source": "job_title_ontology",
+      "method": "ontology_lookup"
+    },
+    {
       "field": "degree",
       "source": "degree_ontology",
+      "method": "ontology_lookup"
+    },
+    {
+      "field": "country",
+      "source": "country_ontology",
       "method": "ontology_lookup"
     },
     {
@@ -471,5 +436,5 @@
       "method": "merge"
     }
   ],
-  "overall_confidence": 0.7303065387044849
+  "overall_confidence": 0.7123976519041506
 }
